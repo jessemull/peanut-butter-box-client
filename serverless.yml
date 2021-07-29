@@ -1,0 +1,15 @@
+service: peanut-butter-box-client
+  
+configValidationMode: error
+
+custom:
+  client:
+    bucketName: peanut-butter-box-${self:provider.stage}
+    distributionFolder: out
+
+provider:
+  name: aws
+  stage: dev
+
+plugins:
+  - serverless-finch
