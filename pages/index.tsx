@@ -1,13 +1,12 @@
-import { useEffect } from 'react'
-import useAuth from './hooks/oauth'
-/* eslint-disable */
+import { useContext } from 'react'
+import { OAuthContext } from './providers/oauth'
 
 export default function Home (): JSX.Element {
-  const { signIn, signOut } = useAuth()
+  const { signIn, signOut } = useContext(OAuthContext)
   return (
     <div>
-      <button onClick={signIn}>Sign in</button>
-      <button onClick={signOut}>Sign out</button>
+      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signOut()}>Sign out</button>
     </div>
   )
 }
