@@ -3,7 +3,8 @@ import { OktaAuth } from '@okta/okta-auth-js'
 
 export const OAuthContext = createContext({
   authClient: {},
-  getToken: (): string | undefined => '',
+  getAccessToken: (): string | undefined => '',
+  getIdToken: (): string | undefined => '',
   signIn: () => Promise.resolve(),
   signOut: () => Promise.resolve()
 })
@@ -27,13 +28,18 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
 
   const signOut = () => authClient.signOut()
 
-  const getToken = () => authClient.getIdToken()
+  const getIdToken = () => authClient.getIdToken()
+
+  const getAccessToken = () => authClient.getAccessToken()
 
   useEffect(() => {
     const setToken = async () => {
       const isAuthorized = authClient.getIdToken()
       if (authClient.isLoginRedirect() && !isAuthorized) {
-        const { tokens: { idToken } } = await authClient.token.parseFromUrl()
+        const { tokens: { accessToken, idToken } } = await authClient.token.parseFromUrl()
+        if (accessToken) {
+          authClient.tokenManager.add('accessToken', accessToken)
+        }
         if (idToken) {
           authClient.tokenManager.add('idToken', idToken)
         }
@@ -45,7 +51,8 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
   return (
     <OAuthContext.Provider value={{
       authClient,
-      getToken,
+      getAccessToken,
+      getIdToken,
       signIn,
       signOut
     }}>
