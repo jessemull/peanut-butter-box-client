@@ -1,13 +1,14 @@
 import { createContext, useEffect } from 'react'
 import { OktaAuth } from '@okta/okta-auth-js'
 
-export const OAuthContext = createContext({
-  authClient: {},
-  getAccessToken: (): string | undefined => '',
-  getIdToken: (): string | undefined => '',
-  signIn: () => Promise.resolve(),
-  signOut: () => Promise.resolve()
-})
+interface OAuthProviderProps {
+  children: Array<JSX.Element> | JSX.Element
+}
+
+interface SignInInput {
+  username: string;
+  password: string;
+}
 
 const config = {
   clientId: '0oa1d73vblRClOdjg5d7',
@@ -17,36 +18,43 @@ const config = {
   pkce: true
 }
 
-const authClient = new OktaAuth(config)
+export const OAuthContext = createContext({
+  authClient: new OktaAuth(config),
+  getAccessToken: (): string | undefined => '',
+  getIdToken: (): string | undefined => '',
+  signIn: (credentials: SignInInput) => Promise.resolve(), // eslint-disable-line
+  signOut: () => Promise.resolve()
+})
 
-interface OAuthProviderProps {
-  children: Array<JSX.Element> | JSX.Element
-}
+const authClient: OktaAuth = new OktaAuth(config)
 
 const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
-  const signIn = () => authClient.signInWithRedirect()
+  const signIn = async ({ username, password }: SignInInput) => {
+    const session = await authClient
+      .signInWithCredentials({
+        username,
+        password
+      })
+    const tokens = await authClient.token.getWithoutPrompt({
+      responseType: ['id_token', 'access_token'],
+      scopes: ['openid', 'profile', 'email'],
+      sessionToken: session.sessionToken,
+      redirectUri: window.location.href // eslint-disable-line
+    })
+    const { tokens: { accessToken, idToken } } = tokens
+    if (accessToken) {
+      authClient.tokenManager.add('accessToken', accessToken)
+    }
+    if (idToken) {
+      authClient.tokenManager.add('idToken', idToken)
+    }
+  }
 
   const signOut = () => authClient.signOut()
 
   const getIdToken = () => authClient.getIdToken()
 
   const getAccessToken = () => authClient.getAccessToken()
-
-  useEffect(() => {
-    const setToken = async () => {
-      const isAuthorized = authClient.getIdToken()
-      if (authClient.isLoginRedirect() && !isAuthorized) {
-        const { tokens: { accessToken, idToken } } = await authClient.token.parseFromUrl()
-        if (accessToken) {
-          authClient.tokenManager.add('accessToken', accessToken)
-        }
-        if (idToken) {
-          authClient.tokenManager.add('idToken', idToken)
-        }
-      }
-    }
-    setToken() // eslint-disable-line
-  }, [])
 
   return (
     <OAuthContext.Provider value={{

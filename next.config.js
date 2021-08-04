@@ -4,6 +4,7 @@ module.exports = {
     return { 
       '/': { page: '/' }, 
       '/error': { page: '/404' },
+      '/signin': { page: '/signin' }, 
     }
   },
 }
