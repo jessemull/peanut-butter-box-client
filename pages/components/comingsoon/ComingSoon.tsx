@@ -1,4 +1,4 @@
-import broken from '../../../public/images/broken-peanut-cropped.jpg'
+import broken from '../../../public/images/broken-peanut.jpg'
 
 const ComingSoon = (): JSX.Element => (
   <div className="coming-soon-container">

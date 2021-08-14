@@ -21,8 +21,8 @@ const Icons = (): JSX.Element => (
     {icons.map(({ Icon, href, label }) =>
       href
         ? (
-            <div className="icon-container">
-              <Link href={href} key={label}>
+            <div className="icon-container" key={label}>
+              <Link href={href}>
                 <a><Icon /></a>
               </Link>
             </div>
