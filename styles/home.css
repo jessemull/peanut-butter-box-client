@@ -1,0 +1,63 @@
+.app-bar {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  padding: 0.3rem 3rem 0.3rem 3rem;
+  text-align: center;
+  width: 100%;
+}
+
+.app-bar-icons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.app-bar-icon {
+  background-size: 32px 32px;
+  margin-left: 1.6rem;
+}
+
+.app-bar-icon:hover {
+  cursor: pointer;
+}
+
+.app-bar-links {
+  align-items: center;
+  display: flex;
+}
+
+.app-bar-link {
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 1rem;
+  margin-left: 2rem;
+  text-transform: uppercase;
+}
+.icon-container {
+  height: 32px;
+  width: 32px;
+}
+.app-bar-link:hover {
+  cursor: pointer;
+}
+
+.app-bar-title {
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 2rem;
+  font-weight: 100;
+  letter-spacing: 0.5rem;
+  text-transform: uppercase;
+}
+
+.background-image {
+  height: 80vh;
+  position: relative;
+  width: 100vw;
+}
+
+.header {
+  background-color: black;
+  height: 30px;
+}
