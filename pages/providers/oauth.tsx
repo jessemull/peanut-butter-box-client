@@ -1,4 +1,4 @@
-import { createContext, useEffect } from 'react'
+import { createContext } from 'react'
 import { OktaAuth } from '@okta/okta-auth-js'
 
 interface OAuthProviderProps {

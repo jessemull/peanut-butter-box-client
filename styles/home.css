@@ -35,10 +35,7 @@
   margin-left: 2rem;
   text-transform: uppercase;
 }
-.icon-container {
-  height: 32px;
-  width: 32px;
-}
+
 .app-bar-link:hover {
   cursor: pointer;
 }
@@ -52,9 +49,9 @@
 }
 
 .background-image {
-  height: 80vh;
-  position: relative;
+  object-fit: cover;
   width: 100vw;
+  height: 80vh;
 }
 
 .header {

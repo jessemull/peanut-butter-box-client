@@ -20,4 +20,7 @@ module.exports = {
   plugins: [
     '@typescript-eslint'
   ],
+  rules: {
+    '@next/next/no-img-element': 'off'
+  }
 }

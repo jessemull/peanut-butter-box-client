@@ -1,7 +1,6 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import background from '../public/images/peanut-title-background.jpg'
+import background from '../public/images/home-background.jpg'
 import ProfileIcon from './icons/profile'
 import SearchIcon from './icons/search'
 import CartIcon from './icons/cart'
@@ -12,12 +11,6 @@ export default function Home (): JSX.Element {
       <Head>
         <title>Peanut Butter Box</title>
         <meta httpEquiv="content-type" content="text/html; charset=utf-8"></meta>
-        <link
-            rel="preload"
-            href="/fonts/PeanutButterCookies.ttf"
-            as="font"
-            crossOrigin=""
-          />
       </Head>
       <div className="header" />
       <div className="app-bar">
@@ -54,9 +47,7 @@ export default function Home (): JSX.Element {
           </div>
         </div>
       </div>
-      <div className="background-image">
-        <Image alt="Peanut Butter Box" layout="fill" objectFit="cover" src={background} />
-      </div>
+      <img alt="Peanut Butter Box" className="background-image" src={background} />
     </>
   )
 }
