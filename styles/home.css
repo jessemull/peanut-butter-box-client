@@ -58,3 +58,11 @@
   background-color: black;
   height: 30px;
 }
+
+.icon-container {
+  margin-left: 1rem;
+}
+
+.icon-container:hover {
+  cursor: pointer;
+}
