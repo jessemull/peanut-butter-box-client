@@ -4,7 +4,7 @@ configValidationMode: error
 
 custom:
   client:
-    bucketName: peanut-butter-box-${self:provider.stage}
+    bucketName: ${self:provider.stage}.peanutbutterbox.org
     distributionFolder: out
 
 provider:
