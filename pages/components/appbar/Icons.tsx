@@ -1,15 +1,15 @@
 import Link from 'next/link'
-import CartIcon from './../icons/cart'
-import ProfileIcon from '../icons/profile'
-import SearchIcon from '../icons/search'
+import CartIcon from '../icons/Cart'
+import ProfileIcon from '../icons/Profile'
+import SearchIcon from '../icons/Search'
 
 const icons = [{
+  Icon: SearchIcon,
+  label: 'search'
+}, {
   Icon: ProfileIcon,
   href: '/profile',
   label: 'profile'
-}, {
-  Icon: SearchIcon,
-  label: 'search'
 }, {
   Icon: CartIcon,
   href: '/cart',

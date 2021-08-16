@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const links = [{
+export const links = [{
   href: '#subscriptions',
   label: 'Subscriptions'
 }, {

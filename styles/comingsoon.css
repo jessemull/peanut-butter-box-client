@@ -1,3 +1,21 @@
+@media screen and (max-width: 600px) {
+  .coming-soon-header {
+    font-size: 1.25rem;
+  }
+  .coming-soon-image {
+    height: 12vh;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .coming-soon-header {
+    font-size: 3rem;
+  }
+  .coming-soon-image {
+    height: 24vh;
+  }
+}
+
 .coming-soon-container {
   align-items: center;
   display: flex;
@@ -9,16 +27,15 @@
 
 .coming-soon-header {
   font-family: 'AntipastoPro', sans-serif;
-  font-size: 3vw;
   font-weight: 100;
   letter-spacing: 0.5rem;
   text-transform: uppercase;
 }
 
 .coming-soon-image {
-  object-fit: scale-down;
+  object-fit: cover;
   object-position: 50% 50%;
-  height: 24vh;
+  margin-left: -16px;
   margin-top: 16px;
-  width: 24vw;
+  width: auto;
 }
