@@ -6,7 +6,7 @@ import Menu from './Menu'
 import MobileSearch from './MobileSearch'
 
 const Appbar = (): JSX.Element => {
-  const nav = useRef(null)
+  const nav = useRef<HTMLHeadingElement>(null)
   const closeMenu = (): void => {
     if (nav && nav.current) {
       nav.current.classList.remove('nav-open')
