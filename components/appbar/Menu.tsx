@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MutableRefObject } from 'react'
+import { RefObject } from 'react'
 
 export const links = [{
   href: '#subscriptions',
@@ -22,7 +22,7 @@ export const links = [{
 }]
 
 interface MenuProps {
-  nav: MutableRefObject<null>
+  nav: RefObject<HTMLHeadingElement>
 }
 
 const Menu = ({ nav }: MenuProps): JSX.Element => {

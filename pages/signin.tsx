@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { FormEvent, useContext, useState } from 'react'
-import { OAuthContext } from './providers/oauth'
+import { OAuthContext } from '../providers/oauth'
 
 export default function SignIn (): JSX.Element {
   const router = useRouter()

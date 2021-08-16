@@ -1,4 +1,4 @@
-import ComingSoon from './components/comingsoon'
+import ComingSoon from '../components/comingsoon'
 
 const Contact = (): JSX.Element => <ComingSoon />
 
