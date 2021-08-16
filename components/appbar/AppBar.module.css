@@ -1,0 +1,61 @@
+@media screen and (max-width: 600px) {
+  .app_bar_title {
+    font-size: 1.5rem;
+  }
+  .app_bar_links {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .app_bar_title {
+    font-size: 2rem;
+  }
+}
+
+.app_bar {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  padding: 0.3rem 3rem 0.3rem 3rem;
+  text-align: center;
+  width: 100%;
+}
+
+.app_bar_icons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.app_bar_links {
+  align-items: center;
+  display: flex;
+}
+
+.app_bar_title {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 100;
+  letter-spacing: 0.5rem;
+  text-transform: uppercase;
+}
+
+.header {
+  align-items: center;
+  background-color: black;
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  padding: 0px 6px 0px 4px;
+  width: 100vw;
+}
+
+.nav_open {
+  left: 0;
+  transition: left 0.75s;
+}

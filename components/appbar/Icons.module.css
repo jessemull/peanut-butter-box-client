@@ -1,0 +1,13 @@
+@media screen and (max-width: 1200px) {
+  .icon_container {
+    display: none;
+  }
+}
+
+.icon_container {
+  margin-left: 1rem;
+}
+
+.icon_container:hover {
+  cursor: pointer;
+}

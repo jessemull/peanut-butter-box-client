@@ -1,0 +1,13 @@
+@media screen and (min-width: 1200px) {
+  .icon_container_mobile {
+    display: none;
+  }
+}
+
+.icon_container_mobile {
+  margin-left: 1rem;
+}
+
+.icon_container_mobile:hover {
+  cursor: pointer;
+}

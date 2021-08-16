@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { RefObject } from 'react'
+import styles from './Menu.module.css'
 
 export const links = [{
   href: '#subscriptions',
@@ -27,12 +28,12 @@ interface MenuProps {
 
 const Menu = ({ nav }: MenuProps): JSX.Element => {
   return (
-    <nav className="nav" ref={nav}>
-      <ul className="menu">
+    <nav className={styles.nav} ref={nav}>
+      <ul className={styles.menu}>
         {links.map(({ href, label }) => (
-          <li className="menu-item" key={href}>
+          <li className={styles.menu_item} key={href}>
             <Link href={href}>
-              <a className="menu-item-link">{label}</a>
+              <a className={styles.menu_item_link}>{label}</a>
             </Link>
           </li>
         ))}

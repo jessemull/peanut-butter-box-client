@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import styles from './Links.module.css'
 
 export const links = [{
   href: '#subscriptions',
@@ -24,7 +25,7 @@ const Links = (): JSX.Element => (
   <>
     {links.map(({ href, label }) => (
       <Link href={href} key={href}>
-        <a className="app-bar-link">{label}</a>
+        <a className={styles.app_bar_link}>{label}</a>
       </Link>
     ))}
   </>

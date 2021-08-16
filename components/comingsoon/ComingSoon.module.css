@@ -1,22 +1,22 @@
 @media screen and (max-width: 600px) {
-  .coming-soon-header {
+  .coming_soon_header {
     font-size: 1.25rem;
   }
-  .coming-soon-image {
+  .coming_soon_image {
     height: 12vh;
   }
 }
 
 @media screen and (min-width: 600px) {
-  .coming-soon-header {
+  .coming_soon_header {
     font-size: 3rem;
   }
-  .coming-soon-image {
+  .coming_soon_image {
     height: 24vh;
   }
 }
 
-.coming-soon-container {
+.coming_soon_container {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -25,14 +25,14 @@
   width: 100vw;
 }
 
-.coming-soon-header {
+.coming_soon_header {
   font-family: 'AntipastoPro', sans-serif;
   font-weight: 100;
   letter-spacing: 0.5rem;
   text-transform: uppercase;
 }
 
-.coming-soon-image {
+.coming_soon_image {
   object-fit: cover;
   object-position: 50% 50%;
   margin-left: -16px;

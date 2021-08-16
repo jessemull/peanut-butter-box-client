@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 import SearchIcon from '../icons/Search'
+import styles from './MobileSearch.module.css'
 
 interface MobileSearchProps {
   color: string;
 }
 
 const MobileSearch = ({ color }: MobileSearchProps): JSX.Element => (
-  <div className="icon-container-mobile">
+  <div className={styles.icon_container_mobile}>
     <SearchIcon color={color} size={28} />
   </div>
 )

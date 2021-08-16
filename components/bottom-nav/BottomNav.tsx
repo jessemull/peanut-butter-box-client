@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import CartIcon from '../icons/Cart'
 import ProfileIcon from '../icons/Profile'
+import styles from './BottomNav.module.css'
 
 const icons = [{
   Icon: ProfileIcon,
@@ -13,13 +14,13 @@ const icons = [{
 }]
 
 const Icons = (): JSX.Element => (
-  <div className="bottom-nav">
+  <div className={styles.bottom_nav}>
     {icons.map(({ Icon, href, label }) => (
       <Link href={href} key={label} passHref>
-        <div className="icon-container-bottom-nav">
-          <div className="icon-container-bottom-nav-inner">
+        <div className={styles.icon_container_bottom_nav}>
+          <div className={styles.icon_container_bottom_nav_inner}>
             <Icon size={26} />
-            <p className="icon-container-bottom-nav-label">{label}</p>
+            <p className={styles.icon_container_bottom_nav_label}>{label}</p>
           </div>
         </div>
       </Link>

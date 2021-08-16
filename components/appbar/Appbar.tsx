@@ -4,17 +4,18 @@ import Links from './Links'
 import MenuIcon from '../icons/Menu'
 import Menu from './Menu'
 import MobileSearch from './MobileSearch'
+import styles from './AppBar.module.css'
 
 const Appbar = (): JSX.Element => {
   const nav = useRef<HTMLHeadingElement>(null)
   const closeMenu = (): void => {
     if (nav && nav.current) {
-      nav.current.classList.remove('nav-open')
+      nav.current.classList.remove(styles.nav_open)
     }
   }
   const toggleOpen = (): void => {
     if (nav && nav.current) {
-      nav.current.classList.toggle('nav-open')
+      nav.current.classList.toggle(styles.nav_open)
     }
   }
   useEffect(() => {
@@ -22,16 +23,16 @@ const Appbar = (): JSX.Element => {
   }, [])
   return (
     <>
-      <div className="header">
+      <div className={styles.header}>
         <MenuIcon toggleOpen={toggleOpen} />
         <MobileSearch />
       </div>
-      <div className="app-bar">
-        <div className="app-bar-links">
-          <p className="app-bar-title">Peanut Butter Box</p>
+      <div className={styles.app_bar}>
+        <div className={styles.app_bar_links}>
+          <p className={styles.app_bar_title}>Peanut Butter Box</p>
           <Links />
         </div>
-        <div className="app-bar-icons">
+        <div className={styles.app_bar_icons}>
           <Icons />
         </div>
       </div>
