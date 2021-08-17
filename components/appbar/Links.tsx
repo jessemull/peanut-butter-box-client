@@ -1,5 +1,12 @@
 import Link from 'next/link'
+import { useContext } from 'react'
+import { OAuthContext } from '../../providers/oauth'
 import styles from './Links.module.css'
+
+interface HeaderLink {
+  href: string;
+  label: string;
+}
 
 export const links = [{
   href: '#subscriptions',
@@ -11,9 +18,6 @@ export const links = [{
   href: '/reviews',
   label: 'Reviews'
 }, {
-  href: '/signup',
-  label: 'Sign Up'
-}, {
   href: '/contact',
   label: 'Contact'
 }, {
@@ -21,14 +25,24 @@ export const links = [{
   label: 'About'
 }]
 
-const Links = (): JSX.Element => (
-  <>
-    {links.map(({ href, label }) => (
-      <Link href={href} key={href}>
-        <a className={styles.app_bar_link}>{label}</a>
-      </Link>
-    ))}
-  </>
-)
+const Links = (): JSX.Element => {
+  const { getIdToken, signOut } = useContext(OAuthContext)
+  const isSignedIn = Boolean(getIdToken())
+  return (
+    <>
+      {links.map(({ href, label }) => (
+        <Link href={href} key={href}>
+          <a className={styles.app_bar_link}>{label}</a>
+        </Link>
+      ))}
+      {isSignedIn
+        ? <button className={styles.app_bar_link_sign_out} onClick={signOut}>Sign Out</button>
+        : <Link href="/signin">
+            <a className={styles.app_bar_link}>Sign In</a>
+          </Link>
+      }
+    </>
+  )
+}
 
 export default Links

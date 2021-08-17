@@ -1,4 +1,4 @@
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1250px) {
   .app_bar_link {
     display: none;
   }
@@ -6,11 +6,25 @@
 
 .app_bar_link {
   font-family: 'AntipastoPro', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin-left: 2rem;
   text-transform: uppercase;
 }
 
 .app_bar_link:hover {
+  cursor: pointer;
+}
+
+.app_bar_link_sign_out {
+  background: none;
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 0.9rem;
+  border: none;
+  margin: 0rem 0rem 0rem 2rem;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.app_bar_link_sign_out:hover {
   cursor: pointer;
 }
