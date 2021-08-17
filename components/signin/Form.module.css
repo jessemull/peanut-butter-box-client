@@ -1,38 +1,25 @@
 @media screen and (max-width: 600px) {
-  .sign_in_form_container {
-    min-width: 90vw;
-    padding: 32px;
+  .sign_in_form {
+    width: 90vw;
   }
 }
 
 @media screen and (min-width: 600px) {
-  .sign_in_form_container {
-    min-width: 60vw;
-    padding: 64px;
+  .sign_in_form {
+    width: 380px;
   }
 }
 
-@media screen and (min-width: 900px) {
-  .sign_in_form_container {
-    min-width: 45vw;
-    padding: 64px;
-  }
+.email {
+  padding-bottom: 32px;
 }
 
-@media screen and (min-width: 1200px) {
-  .sign_in_form_container {
-    min-width: 30vw;
-    padding: 64px;
-  }
+.password {
+  padding-bottom: 32px;
 }
 
 .sign_in_form_button {
   flex-grow: 1;
-}
-
-.sign_in_form_container {
-  border: 2px solid black;
-  border-radius: 8px;
 }
 
 .sign_in_buttons {
@@ -47,4 +34,21 @@
 
 .sign_in_buttons div:last-child {
   margin-left: 4px;
+}
+
+.sign_up {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+}
+
+.sign_up_link {
+  color: rgb(255, 255, 255, 0.7);
+  font-weight: 300;
+  padding-bottom: 2px;
+}
+
+.sign_up_link:hover {
+  color: white;
+  border-bottom: 1px solid white;
 }

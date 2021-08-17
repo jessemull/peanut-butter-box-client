@@ -1,17 +1,47 @@
+.password_error {
+  color: rgb(255, 0, 0, 0.7);
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.password_errors_list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
 .form_element {
-  padding: 0px 0px 32px 0px;
+  position: relative;
 }
 
 .text_input {
-  border: 1px solid black;
-  border-radius: 4px;
+  background-color: rgb(255, 255, 255, 0.25);
+  border: 2px solid white;
+  border-radius: 25px;
+  color: white;
   height: 50px;
   font-size: 1rem;
-  padding: 0px 8px 0px 8px;
+  padding: 0px 16px 0px 40px;
   width: 100%;
 }
 
+.text_input:focus {
+  outline: none;
+}
+
+.text_input::placeholder {
+  color: rgb(255, 255, 255, 0.7);
+  padding: 0px 16px 0px 0px;
+}
+
+.text_input_icon {
+  left: 16px;
+  position: absolute;
+  top: 15px;
+  z-index: 2;
+}
+
 .text_input_label {
+  color: white;
   display: block;
   font-family: 'AntipastoPro', sans-serif;
   font-size: 1rem;
