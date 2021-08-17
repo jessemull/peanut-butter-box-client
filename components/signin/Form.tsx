@@ -46,26 +46,20 @@ const getPasswordErrorMessages = (list: Array<string>): Array<string> => {
 export default function SignIn (): JSX.Element {
   const router = useRouter()
   const { signIn } = useContext(OAuthContext)
-  const [error, setError] = useState('')
+  const [signInError, setSignInError] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
   const [passwordErrors, setPasswordErrors] = useState<Array<string>>([])
 
   const onEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const isValid = EmailValidator.validate(event.target.value)
-    if (isValid) {
-      setEmailError('')
-    } else {
-      setEmailError('Please enter a valid e-mail address')
-    }
     setEmail(event.target.value)
+    setSignInError(false)
   }
 
   const onPasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const isValid = schema.validate(event.target.value, { list: true })
-    console.log('list', isValid, getPasswordErrorMessages(isValid))
     setPassword(event.target.value)
+    setSignInError(false)
   }
 
   const submit = async (event: FormEvent) => {
@@ -79,7 +73,7 @@ export default function SignIn (): JSX.Element {
         await signIn({ username: email, password })
         await router.push('/')
       } catch (err) {
-        setError(err)
+        setSignInError(true)
       }
     } else {
       if (isValidPassword.length > 0) {
@@ -93,7 +87,6 @@ export default function SignIn (): JSX.Element {
 
   return (
     <form className={styles.sign_in_form} onSubmit={submit}>
-      {error}
       <div className={styles.email}>
         <TextInput
           errors={emailError}
@@ -119,6 +112,12 @@ export default function SignIn (): JSX.Element {
       <div className={styles.sign_in_buttons}>
         <div className={styles.sign_in_form_button}>
           <SubmitButton id="sign-in-submit" value="Sign In" />
+          {signInError &&
+            <div className={styles.sign_in_error_container}>
+              <div className={styles.sign_in_error}>Login failed!</div>
+              <div className={styles.sign_in_error}>Not a user? Sign up now!</div>
+            </div>
+          }
           <div className={styles.sign_up}>
             <Link href="/signup">
               <a className={styles.sign_up_link}>Sign Up</a>

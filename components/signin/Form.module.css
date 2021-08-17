@@ -36,6 +36,18 @@
   margin-left: 4px;
 }
 
+.sign_in_error_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sign_in_error {
+  color: rgb(255, 0, 0, 0.7);
+  font-size: 1em;
+  margin-bottom: 4px;
+  padding: 16px 8px 0px 8px;
+}
+
 .sign_up {
   display: flex;
   justify-content: space-between;
