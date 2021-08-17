@@ -1,14 +1,14 @@
 import EmailValidator from 'email-validator'
+import Link from 'next/link'
 import PasswordValidator from 'password-validator'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import LockIcon from '../icons/Lock'
 import UserIcon from '../icons/User'
+import styles from './Form.module.css'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
 import { OAuthContext } from '../../providers/oauth'
-import styles from './Form.module.css'
-import Link from 'next/link'
 
 const schema = new PasswordValidator()
 
@@ -49,6 +49,7 @@ export default function SignIn (): JSX.Element {
   const [signInError, setSignInError] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordErrors, setPasswordErrors] = useState<Array<string>>([])
 
@@ -68,11 +69,14 @@ export default function SignIn (): JSX.Element {
     const isValidEmail = EmailValidator.validate(email)
     if (isValidPassword.length === 0 && isValidEmail) {
       try {
+        setLoading(true)
         setEmailError('')
         setPasswordErrors([])
         await signIn({ username: email, password })
         await router.push('/')
+        setLoading(false)
       } catch (err) {
+        setLoading(false)
         setSignInError(true)
       }
     } else {
@@ -111,7 +115,7 @@ export default function SignIn (): JSX.Element {
       </div>
       <div className={styles.sign_in_buttons}>
         <div className={styles.sign_in_form_button}>
-          <SubmitButton id="sign-in-submit" value="Sign In" />
+          <SubmitButton id="sign-in-submit" loading={loading} value="Sign In" />
           {signInError &&
             <div className={styles.sign_in_error_container}>
               <div className={styles.sign_in_error}>Login failed!</div>
