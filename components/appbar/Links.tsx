@@ -3,11 +3,6 @@ import { useContext } from 'react'
 import { OAuthContext } from '../../providers/oauth'
 import styles from './Links.module.css'
 
-interface HeaderLink {
-  href: string;
-  label: string;
-}
-
 export const links = [{
   href: '#subscriptions',
   label: 'Subscriptions'
