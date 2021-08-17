@@ -1,0 +1,21 @@
+.form_element {
+  padding: 0px 0px 32px 0px;
+}
+
+.text_input {
+  border: 1px solid black;
+  border-radius: 4px;
+  height: 50px;
+  font-size: 1rem;
+  padding: 0px 8px 0px 8px;
+  width: 100%;
+}
+
+.text_input_label {
+  display: block;
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}

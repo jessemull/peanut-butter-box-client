@@ -1,0 +1,6 @@
+.sign_in_container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}

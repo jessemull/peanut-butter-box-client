@@ -9,7 +9,7 @@ const icons = [{
   label: 'search'
 }, {
   Icon: ProfileIcon,
-  href: '/profile',
+  href: '/signin',
   label: 'profile'
 }, {
   Icon: CartIcon,

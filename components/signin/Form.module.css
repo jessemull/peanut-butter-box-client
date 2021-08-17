@@ -1,0 +1,50 @@
+@media screen and (max-width: 600px) {
+  .sign_in_form_container {
+    min-width: 90vw;
+    padding: 32px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .sign_in_form_container {
+    min-width: 60vw;
+    padding: 64px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .sign_in_form_container {
+    min-width: 45vw;
+    padding: 64px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .sign_in_form_container {
+    min-width: 30vw;
+    padding: 64px;
+  }
+}
+
+.sign_in_form_button {
+  flex-grow: 1;
+}
+
+.sign_in_form_container {
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+.sign_in_buttons {
+  display: flex;
+  padding: 4px 0px 0px 0px;
+  width: 100%;
+}
+
+.sign_in_buttons div:first-child {
+  margin-right: 4px;
+}
+
+.sign_in_buttons div:last-child {
+  margin-left: 4px;
+}
