@@ -1,0 +1,66 @@
+@media screen and (max-width: 600px) {
+  .sign_up_form {
+    width: 90vw;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .sign_up_form {
+    width: 380px;
+  }
+}
+
+.sign_up_input {
+  padding-bottom: 32px;
+}
+
+.email {
+  padding-bottom: 32px;
+}
+
+.sign_up_form_button {
+  flex-grow: 1;
+}
+
+.sign_up_buttons {
+  display: flex;
+  padding: 4px 0px 0px 0px;
+  width: 100%;
+}
+
+.sign_up_buttons div:first-child {
+  margin-right: 4px;
+}
+
+.sign_up_buttons div:last-child {
+  margin-left: 4px;
+}
+
+.sign_up_error_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sign_up_error {
+  color: rgb(255, 0, 0, 0.7);
+  font-size: 1em;
+  margin-bottom: 4px;
+  padding: 16px 8px 0px 8px;
+}
+
+.sign_up {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+}
+
+.sign_up_link {
+  color: rgb(255, 255, 255, 0.7);
+  font-weight: 300;
+  padding-bottom: 2px;
+}
+
+.sign_up_link:hover {
+  color: white;
+  border-bottom: 1px solid white;
+}

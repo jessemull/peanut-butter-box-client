@@ -11,6 +11,9 @@ const config = withPlugins(
     ],
   ],
   {
+    env: {
+      STAGE: process.env.STAGE
+    },
     images: {
       disableStaticImages: true,
     },

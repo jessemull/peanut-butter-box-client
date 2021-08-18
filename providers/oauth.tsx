@@ -1,5 +1,8 @@
 import { createContext } from 'react'
 import { OktaAuth } from '@okta/okta-auth-js'
+import config from '../config'
+
+const { redirectUri } = config
 
 interface OAuthProviderProps {
   children: Array<JSX.Element> | JSX.Element
@@ -10,23 +13,23 @@ interface SignInInput {
   password: string;
 }
 
-const config = {
+const oktaConfig = {
   clientId: '0oa1d73vblRClOdjg5d7',
   issuer: 'https://dev-82492334.okta.com/oauth2/default',
-  redirectUri: 'http://localhost:3000',
+  redirectUri,
   scopes: ['openid', 'profile', 'email'],
   pkce: true
 }
 
 export const OAuthContext = createContext({
-  authClient: new OktaAuth(config),
+  authClient: new OktaAuth(oktaConfig),
   getAccessToken: (): string | undefined => '',
   getIdToken: (): string | undefined => '',
   signIn: (credentials: SignInInput) => Promise.resolve(), // eslint-disable-line
   signOut: () => Promise.resolve()
 })
 
-const authClient: OktaAuth = new OktaAuth(config)
+const authClient: OktaAuth = new OktaAuth(oktaConfig)
 
 const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
   const signIn = async ({ username, password }: SignInInput) => {

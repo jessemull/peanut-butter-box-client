@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t $IMAGE_TAG -f ./jenkins/build/Dockerfile .
+docker build --build-arg STAGE=$1 -t $IMAGE_TAG -f ./jenkins/build/Dockerfile .

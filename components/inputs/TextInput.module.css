@@ -20,8 +20,15 @@
   color: white;
   height: 50px;
   font-size: 1rem;
-  padding: 0px 16px 0px 40px;
   width: 100%;
+}
+
+.text_input_padding {
+  padding: 0px 16px 0px 16px;
+}
+
+.text_input_icon_padding {
+  padding: 0px 16px 0px 40px;
 }
 
 .text_input:focus {

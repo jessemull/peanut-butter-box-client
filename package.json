@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "deploy": "serverless client deploy --no-confirm",
-    "dev": "next dev",
+    "dev": "STAGE=local next dev",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",

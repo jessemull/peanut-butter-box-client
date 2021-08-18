@@ -1,0 +1,9 @@
+.sign_up_container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+}

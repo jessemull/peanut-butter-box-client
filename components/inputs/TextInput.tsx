@@ -5,7 +5,7 @@ import styles from './TextInput.module.css'
 
 interface TextInputProps {
   errors?: string | Array<string>;
-  Icon: ElementType;
+  Icon?: ElementType;
   id: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   placeholder: string;
@@ -17,11 +17,13 @@ const TextInput = ({ errors, Icon, id, onChange, placeholder, type, value }: Tex
   const errorsArray = Array.isArray(errors) ? errors : errors && [errors]
   return (
     <div className={styles.form_element}>
-      <div className={styles.text_input_icon}>
-        <Icon />
-      </div>
+      {Icon &&
+        <div className={styles.text_input_icon}>
+          <Icon />
+        </div>
+      }
       <input
-        className={styles.text_input}
+        className={`${styles.text_input} ${Icon ? styles.text_input_icon_padding : styles.text_input_padding}`}
         id={id}
         onChange={onChange}
         placeholder={placeholder}
