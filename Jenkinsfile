@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'echo ${params.STAGE}'
+                sh 'echo $STAGE'
                 // sh './jenkins/build/build.sh ${params.STAGE}'
             }
         }
