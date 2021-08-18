@@ -6,7 +6,7 @@ pipeline {
         IMAGE_TAG="peanutbutterbox:${BUILD_ID}"
     }
     stages {
-        stage('Setup parameters') {
+        stage('Parameters') {
             steps {
                 script { 
                     properties([

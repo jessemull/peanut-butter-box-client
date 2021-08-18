@@ -1,4 +1,4 @@
-const baseUrl = 'https://zesve9r89j.execute-api.us-east-1.amazonaws.com/prod'
+const baseUrl = 'https://api.peanutbutterbox.org'
 
 const config = {
   healthcheckUrl: `${baseUrl}/healthcheck`,
