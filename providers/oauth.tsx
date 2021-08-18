@@ -3,7 +3,7 @@ import { OktaAuth } from '@okta/okta-auth-js'
 import config from '../config'
 
 const { redirectUri } = config
-
+console.log(redirectUri)
 interface OAuthProviderProps {
   children: Array<JSX.Element> | JSX.Element
 }
@@ -17,6 +17,7 @@ const oktaConfig = {
   clientId: '0oa1d73vblRClOdjg5d7',
   issuer: 'https://dev-82492334.okta.com/oauth2/default',
   redirectUri,
+  postLogoutRedirectUri: redirectUri,
   scopes: ['openid', 'profile', 'email'],
   pkce: true
 }
@@ -42,7 +43,7 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
       responseType: ['id_token', 'access_token'],
       scopes: ['openid', 'profile', 'email'],
       sessionToken: session.sessionToken,
-      redirectUri: window.location.href // eslint-disable-line
+      redirectUri
     })
     const { tokens: { accessToken, idToken } } = tokens
     if (accessToken) {
