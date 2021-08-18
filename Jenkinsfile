@@ -23,19 +23,19 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo $STAGE'
-                // sh './jenkins/build/build.sh ${params.STAGE}'
+                sh './jenkins/build/build.sh $STAGE'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './jenkins/test/test.sh'
-        //     }
-        // }
-        // stage('Deploy') {
-        //     steps {
-        //         sh './jenkins/deploy/deploy.sh'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh './jenkins/test/test.sh'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh './jenkins/deploy/deploy.sh'
+            }
+        }
     }
     post {
         always {
