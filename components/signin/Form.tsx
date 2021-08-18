@@ -76,7 +76,6 @@ export default function SignIn (): JSX.Element {
         await router.push('/')
         setLoading(false)
       } catch (err) {
-        console.log(err)
         setLoading(false)
         setSignInError(true)
       }

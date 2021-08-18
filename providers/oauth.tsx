@@ -3,7 +3,7 @@ import { OktaAuth } from '@okta/okta-auth-js'
 import config from '../config'
 
 const { redirectUri } = config
-console.log(redirectUri)
+
 interface OAuthProviderProps {
   children: Array<JSX.Element> | JSX.Element
 }
