@@ -110,7 +110,7 @@ const Form = (): JSX.Element => {
             <Link href="/signin">
               <a className={styles.sign_up_link}>Sign In</a>
             </Link>
-            <Link href="/reset">
+            <Link href="/request">
               <a className={styles.sign_up_link}>Forgot Password?</a>
             </Link>
           </div>

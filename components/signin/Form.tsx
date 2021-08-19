@@ -95,7 +95,7 @@ export default function SignIn (): JSX.Element {
             <Link href="/signup">
               <a className={styles.sign_up_link}>Sign Up</a>
             </Link>
-            <Link href="/reset">
+            <Link href="/request">
               <a className={styles.sign_up_link}>Forgot password?</a>
             </Link>
           </div>

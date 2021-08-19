@@ -96,7 +96,7 @@ const Form = (): JSX.Element => {
             <Link href="/signin">
               <a className={styles.activate_link}>Sign In</a>
             </Link>
-            <Link href="/reset">
+            <Link href="/request">
               <a className={styles.activate_link}>Forgot password?</a>
             </Link>
           </div>
