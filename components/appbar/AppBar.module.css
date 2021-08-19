@@ -45,6 +45,10 @@
   text-transform: uppercase;
 }
 
+.app_bar_title:hover {
+  cursor: pointer;
+}
+
 .header {
   align-items: center;
   background-color: black;
@@ -53,9 +57,4 @@
   justify-content: space-between;
   padding: 0px 6px 0px 4px;
   width: 100vw;
-}
-
-.nav_open {
-  left: 0;
-  transition: left 0.75s;
 }

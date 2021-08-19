@@ -1,0 +1,24 @@
+@media screen and (max-width: 600px) {
+  .app_container {
+    height: calc(100vh - 205px);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .app_container {
+    height: calc(100vh - 150px);
+  }
+}
+
+.app_container { 
+  border: 2px solid red;
+  position: absolute;
+  top: 150px;
+  width: 100vw;
+  z-index: 0;
+}
+
+.nav_open {
+  left: 0;
+  transition: left 0.75s;
+}
