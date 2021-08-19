@@ -24,7 +24,7 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   }, [])
   return (
     <OAuthProvider>
-      <TopNav nav={nav} toggleOpen={toggleOpen} />
+      <TopNav toggleOpen={toggleOpen} />
       <div className={styles.app_container}>
         <Component {...pageProps} />
       </div>
