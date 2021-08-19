@@ -12,14 +12,14 @@ const { usersUrl } = config
 
 export default function SignIn (): JSX.Element {
   const router = useRouter()
-  const [requestError, setRequestError] = useState(false)
+  const [requestError, setRequestError] = useState('')
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const onEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setEmail(event.target.value)
-    setRequestError(false)
+    setRequestError('')
   }
 
   const submit = async (event: FormEvent) => {

@@ -12,7 +12,7 @@ const { usersUrl } = config
 
 const Form = (): JSX.Element => {
   const router = useRouter()
-  const [signUpError, setSignUpError] = useState(false)
+  const [signUpError, setSignUpError] = useState('')
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -23,17 +23,17 @@ const Form = (): JSX.Element => {
 
   const onEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setEmail(event.target.value)
-    setSignUpError(false)
+    setSignUpError('')
   }
 
   const onFirstNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setFirstName(event.target.value)
-    setSignUpError(false)
+    setSignUpError('')
   }
 
   const onLastNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLastName(event.target.value)
-    setSignUpError(false)
+    setSignUpError('')
   }
 
   const submit = async (event: FormEvent) => {
