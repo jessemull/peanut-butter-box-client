@@ -1,5 +1,5 @@
-import background from '../../public/images/order-now.jpg'
-import backgroundMobile from '../../public/images/order-now-mobile.jpg'
+import background from '../../public/images/order-now.webp'
+import backgroundMobile from '../../public/images/order-now-mobile.webp'
 import styles from './OrderNow.module.css'
 
 const OrderNow = (): JSX.Element => (

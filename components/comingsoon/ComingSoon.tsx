@@ -1,4 +1,4 @@
-import broken from '../../public/images/broken-peanut.jpg'
+import broken from '../../public/images/broken-peanut.webp'
 import styles from './ComingSoon.module.css'
 
 const ComingSoon = (): JSX.Element => (

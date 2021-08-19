@@ -97,15 +97,15 @@ const Form = (): JSX.Element => {
           <SubmitButton id="sign-up-submit" loading={loading} value="Sign Up" />
           {signUpError &&
             <div className={styles.sign_up_error_container}>
-              <div className={styles.sign_up_error}>Sign up failed!</div>
+              <div className={styles.sign_up_error}>{signUpError}</div>
             </div>
           }
           <div className={styles.sign_up}>
             <Link href="/signin">
-              <a className={styles.sign_up_link}>Already a member?</a>
-            </Link>
-            <Link href="/signin">
               <a className={styles.sign_up_link}>Sign In</a>
+            </Link>
+            <Link href="/reset">
+              <a className={styles.sign_up_link}>Forgot Password?</a>
             </Link>
           </div>
         </div>

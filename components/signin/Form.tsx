@@ -1,6 +1,5 @@
 import EmailValidator from 'email-validator'
 import Link from 'next/link'
-import PasswordValidator from 'password-validator'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import LockIcon from '../icons/Lock'
@@ -9,39 +8,7 @@ import styles from './Form.module.css'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
 import { OAuthContext } from '../../providers/oauth'
-
-const schema = new PasswordValidator()
-
-schema
-  .is().min(8)
-  .is().max(100)
-  .has().uppercase()
-  .has().lowercase()
-  .has().digits(2)
-  .has().not().spaces()
-
-const getPasswordErrorMessages = (list: Array<string>): Array<string> => {
-  const messages: Array<string> = []
-  if (list.indexOf('min') > -1) {
-    messages.push('Password is less than 8 characters')
-  }
-  if (list.indexOf('max') > -1) {
-    messages.push('Password is greater than 100 characters')
-  }
-  if (list.indexOf('lowercase') > -1) {
-    messages.push('Password must contain one lowercase letter')
-  }
-  if (list.indexOf('uppercase') > -1) {
-    messages.push('Password must contain one uppercase letter')
-  }
-  if (list.indexOf('digits') > -1) {
-    messages.push('Password must contain at least two digits')
-  }
-  if (list.indexOf('spaces') > -1) {
-    messages.push('Password may not contain any spaces')
-  }
-  return messages
-}
+import { passwordUtil } from '../../util'
 
 export default function SignIn (): JSX.Element {
   const router = useRouter()
@@ -65,7 +32,7 @@ export default function SignIn (): JSX.Element {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
-    const isValidPassword = schema.validate(password, { list: true })
+    const isValidPassword = passwordUtil.validator.validate(password, { list: true })
     const isValidEmail = EmailValidator.validate(email)
     if (isValidPassword.length === 0 && isValidEmail) {
       try {
@@ -81,7 +48,7 @@ export default function SignIn (): JSX.Element {
       }
     } else {
       if (isValidPassword.length > 0) {
-        setPasswordErrors(getPasswordErrorMessages(isValidPassword))
+        setPasswordErrors(passwordUtil.getPasswordErrorMessages(isValidPassword))
       }
       if (!isValidEmail) {
         setEmailError('Please enter a valid e-mail address')
