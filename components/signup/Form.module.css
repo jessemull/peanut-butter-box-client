@@ -10,6 +10,10 @@
   }
 }
 
+.sign_up_form {
+  padding: 32px;
+}
+
 .sign_up_input {
   padding-bottom: 32px;
 }

@@ -11,7 +11,7 @@ interface AppBarProps {
 
 const Appbar = ({ toggleOpen }: AppBarProps): JSX.Element => {
   return (
-    <div style={{ height: '100px' }}>
+    <div style={{ borderBottom: '5px solid black', height: '100px', minHeight: '100px' }}>
       <div className={styles.header}>
         <MenuIcon toggleOpen={toggleOpen} />
         <MobileSearch />

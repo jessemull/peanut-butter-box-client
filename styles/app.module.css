@@ -1,16 +1,17 @@
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1250px) {
   .app_container {
     height: calc(100vh - 205px);
   }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1250px) {
   .app_container {
     height: calc(100vh - 150px);
   }
 }
 
 .app_container {
+  overflow: auto;
   position: absolute;
   top: 150px;
   width: 100vw;
