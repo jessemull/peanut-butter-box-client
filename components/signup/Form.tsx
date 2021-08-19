@@ -1,6 +1,7 @@
 import EmailValidator from 'email-validator'
 import get from 'lodash/get'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import styles from './Form.module.css'
 import config from '../../config'
@@ -10,6 +11,7 @@ import { TextInput } from '../inputs'
 const { usersUrl } = config
 
 const Form = (): JSX.Element => {
+  const router = useRouter()
   const [signUpError, setSignUpError] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -43,6 +45,7 @@ const Form = (): JSX.Element => {
         setEmailError('')
         await fetch(usersUrl, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify({ email, firstName, lastName }) })
         setLoading(false)
+        await router.push('/emailmessage')
       } catch (err) {
         setLoading(false)
         setSignUpError(get(err, 'error', 'Sign up failed!'))
