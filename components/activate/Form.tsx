@@ -64,6 +64,7 @@ const Form = (): JSX.Element => {
     <form className={styles.activate_form} onSubmit={submit}>
       <div className={styles.activate_input}>
         <TextInput
+          autocomplete="new-password"
           errors={passwordErrors}
           id="activate-password"
           onChange={onPasswordChange}
@@ -74,6 +75,7 @@ const Form = (): JSX.Element => {
       </div>
       <div className={styles.activate_input}>
         <TextInput
+          autocomplete="new-password"
           errors={passwordVerifyError}
           id="activate-verify-password"
           onChange={onPasswordVerifyChange}

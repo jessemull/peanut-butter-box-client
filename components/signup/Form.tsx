@@ -67,6 +67,7 @@ const Form = (): JSX.Element => {
     <form className={styles.sign_up_form} onSubmit={submit}>
       <div className={styles.sign_up_input}>
         <TextInput
+          autocomplete="given-name"
           errors={firstNameError}
           id="sign-up-first-name"
           onChange={onFirstNameChange}
@@ -77,6 +78,7 @@ const Form = (): JSX.Element => {
       </div>
       <div className={styles.sign_up_input}>
         <TextInput
+          autocomplete="family-name"
           errors={lastNameError}
           id="sign-up-last-name"
           onChange={onLastNameChange}
@@ -87,6 +89,7 @@ const Form = (): JSX.Element => {
       </div>
       <div className={styles.email}>
         <TextInput
+          autocomplete="email"
           errors={emailError}
           id="sign-up-email"
           onChange={onEmailChange}

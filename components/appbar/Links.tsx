@@ -7,9 +7,6 @@ export const links = [{
   href: '#subscriptions',
   label: 'Subscriptions'
 }, {
-  href: '/subscribe',
-  label: 'Subscribe Now'
-}, {
   href: '/reviews',
   label: 'Reviews'
 }, {
@@ -18,13 +15,16 @@ export const links = [{
 }, {
   href: '/about',
   label: 'About'
+}, {
+  href: '/signup',
+  label: 'Sign Up'
 }]
 
 const Links = (): JSX.Element => {
   const { getIdToken, signOut } = useContext(OAuthContext)
   const isSignedIn = Boolean(getIdToken())
   return (
-    <>
+    <div className={styles.app_bar_links}>
       {links.map(({ href, label }) => (
         <Link href={href} key={href}>
           <a className={styles.app_bar_link}>{label}</a>
@@ -36,7 +36,7 @@ const Links = (): JSX.Element => {
             <a className={styles.app_bar_link}>Sign In</a>
           </Link>
       }
-    </>
+    </div>
   )
 }
 

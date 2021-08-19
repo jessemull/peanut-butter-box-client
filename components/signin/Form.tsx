@@ -60,6 +60,7 @@ export default function SignIn (): JSX.Element {
     <form className={styles.sign_in_form} onSubmit={submit}>
       <div className={styles.email}>
         <TextInput
+          autocomplete="email"
           errors={emailError}
           Icon={UserIcon}
           id="sign-in-email"
@@ -71,6 +72,7 @@ export default function SignIn (): JSX.Element {
       </div>
       <div className={styles.password}>
         <TextInput
+          autocomplete="current-password"
           errors={passwordErrors}
           Icon={LockIcon}
           id="sign-in-password"

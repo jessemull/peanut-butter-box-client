@@ -29,7 +29,7 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
         <Component {...pageProps} />
       </div>
       <BottomNav />
-      <Menu nav={nav} />
+      <Menu nav={nav} toggleOpen={toggleOpen} />
     </OAuthProvider>
   )
 }
