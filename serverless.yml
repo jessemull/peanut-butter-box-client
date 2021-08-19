@@ -3,13 +3,16 @@ service: peanut-butter-box-client
 configValidationMode: error
 
 custom:
+  bucketNames:
+    dev: dev.peanutbutterbox.org
+    prod: peanutbutterbox.org
   client:
-    bucketName: ${self:provider.stage}.peanutbutterbox.org
+    bucketName: ${self:custom.bucketNames.${opt:stage}}
     distributionFolder: out
 
 provider:
   name: aws
-  stage: dev
+  stage: ${opt:stage}
 
 plugins:
   - serverless-finch
