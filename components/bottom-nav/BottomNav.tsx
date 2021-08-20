@@ -21,13 +21,13 @@ const Icons = (): JSX.Element => {
   return (
     <div className={styles.bottom_nav}>
       {icons(isSignedIn).map(({ Icon, href, label }) => (
-        <Link href={href} key={label} passHref>
-          <div className={styles.icon_container_bottom_nav}>
+        <Link href={href} key={label}>
+          <a className={styles.icon_container_bottom_nav}>
             <div className={styles.icon_container_bottom_nav_inner}>
               <Icon size={26} />
               <p className={styles.icon_container_bottom_nav_label}>{label}</p>
             </div>
-          </div>
+          </a>
         </Link>
       ))}
     </div>

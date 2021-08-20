@@ -18,8 +18,10 @@ const Appbar = ({ toggleOpen }: AppBarProps): JSX.Element => {
       </div>
       <div className={styles.app_bar}>
         <div className={styles.app_bar_links}>
-          <Link href="/" passHref>
-            <p className={styles.app_bar_title}>Peanut Butter Box</p>
+          <Link href="/">
+            <a>
+              <h1 className={styles.app_bar_title}>Peanut Butter Box</h1>
+            </a>
           </Link>
           <Links />
         </div>

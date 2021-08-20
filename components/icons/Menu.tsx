@@ -6,7 +6,7 @@ interface MenuIconProps {
 }
 
 const MenuIcon = ({ toggleOpen }: MenuIconProps): JSX.Element => (
-  <button className={styles.menu_icon} onClick={toggleOpen}>
+  <button aria-label="menu" className={styles.menu_icon} onClick={toggleOpen}>
     <svg
       viewBox="0 0 24 24"
       fill="none"

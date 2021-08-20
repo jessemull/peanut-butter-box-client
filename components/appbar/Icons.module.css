@@ -1,5 +1,5 @@
 @media screen and (max-width: 1250px) {
-  .icon_container {
+  .icon_container, .icon_container_search {
     display: none;
   }
 }
@@ -9,5 +9,15 @@
 }
 
 .icon_container:hover {
+  cursor: pointer;
+}
+
+.icon_container_search {
+  border: none;
+  background: none;
+  margin-left: 1rem;
+}
+
+.icon_container_search:hover {
   cursor: pointer;
 }

@@ -4,7 +4,12 @@
   }
 }
 
+.app_bar_links {
+  list-style-type: none;
+}
+
 .app_bar_link {
+  display: inline-block;
   font-family: 'AntipastoPro', sans-serif;
   font-size: 0.9rem;
   margin-left: 2rem;
@@ -17,6 +22,7 @@
 
 .app_bar_link_sign_out {
   background: none;
+  display: inline-block;
   font-family: 'AntipastoPro', sans-serif;
   font-size: 0.9rem;
   border: none;

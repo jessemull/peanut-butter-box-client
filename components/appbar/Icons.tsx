@@ -34,9 +34,9 @@ const Icons = (): JSX.Element => {
               </div>
             )
           : (
-              <div className={styles.icon_container} key={label}>
+              <button aria-label={label} className={styles.icon_container_search} key={label}>
                 <Icon />
-              </div>
+              </button>
             )
       )}
     </>

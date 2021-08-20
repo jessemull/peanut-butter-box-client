@@ -24,19 +24,27 @@ const Links = (): JSX.Element => {
   const { getIdToken, signOut } = useContext(OAuthContext)
   const isSignedIn = Boolean(getIdToken())
   return (
-    <div className={styles.app_bar_links}>
-      {links.map(({ href, label }) => (
-        <Link href={href} key={href}>
-          <a className={styles.app_bar_link}>{label}</a>
-        </Link>
-      ))}
-      {isSignedIn
-        ? <button className={styles.app_bar_link_sign_out} onClick={signOut}>Sign Out</button>
-        : <Link href="/signin">
-            <a className={styles.app_bar_link}>Sign In</a>
-          </Link>
-      }
-    </div>
+    <nav>
+      <ul className={styles.app_bar_links}>
+        {links.map(({ href, label }) => (
+          <li className={styles.app_bar_link} key={href}>
+            <Link href={href}>
+              <a >{label}</a>
+            </Link>
+          </li>
+        ))}
+        {isSignedIn
+          ? <li className={styles.app_bar_link}>
+              <button aria-label="Sign Out" className={styles.app_bar_link_sign_out} onClick={signOut}>Sign Out</button>
+            </li>
+          : <li className={styles.app_bar_link}>
+              <Link href="/signin">
+                <a >Sign In</a>
+              </Link>
+            </li>
+        }
+      </ul>
+    </nav>
   )
 }
 
