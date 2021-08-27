@@ -2,22 +2,110 @@
   .background_image {
     display: none;
   }
-}
-
-@media screen and (min-width: 600px) {
   .background_image_mobile {
+    display: block;
+  }
+  .order_now {
     display: none;
   }
 }
 
+@media screen and (min-width: 600px) {
+  .background_image {
+    display: flex;
+  }
+  .background_image_mobile {
+    display: none;
+  }
+  .order_now {
+    display: flex;
+  }
+  .order_now_header_container {
+    margin-left: -150px;
+  }
+  .order_now_header {
+    font-size: 4.5rem;
+    line-height: 5.5rem;
+  }
+}
+
+@media screen and (min-width: 1250px) {
+  .background_image {
+    display: flex;
+  }
+  .background_image_mobile {
+    display: none;
+  }
+  .order_now {
+    display: flex;
+  }
+  .order_now_header {
+    font-size: 6rem;
+    line-height: 7rem;
+  }
+}
+
 .background_image {
-  object-fit: cover;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
   height: 75vh;
+  justify-content: flex-end;
   width: 100vw;
 }
 
-.background_image_mobile {
-  object-fit: cover;
-  height: auto;
+.background_image_mobile_image {
+  background-size: cover;
+  background-position: center;
+  height: 45vh;
   width: 100vw;
+}
+
+.order_now {
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 50%;
+}
+
+.order_now_header {
+  color: white;
+  display: block;
+  font-family: 'Radiant';
+  margin: 0;
+}
+
+.order_now_subheader {
+  color: white;
+  display: block;
+  font-family: 'Radiant';
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+.order_now_mobile {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px;
+}
+
+.order_now_mobile_header {
+  display: block;
+  font-family: 'Radiant';
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  margin: 0;
+  text-align: center;
+}
+
+.order_now_mobile_subheader {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1rem;
+  text-align: center;
 }

@@ -4,8 +4,22 @@ import styles from './OrderNow.module.css'
 
 const OrderNow = (): JSX.Element => (
   <>
-    <img alt="Peanut Butter Box" className={styles.background_image} src={background} />
-    <img alt="Peanut Butter Box" className={styles.background_image_mobile} src={backgroundMobile} />
+    <div className={styles.background_image} style={{ backgroundImage: `url(${background})` }}>
+      <div className={styles.order_now}>
+        <div className={styles.order_now_header_container}>
+          <h2 className={styles.order_now_header}>Peanut Butter</h2>
+          <h2 className={styles.order_now_header}>Subscriptions</h2>
+          <h3 className={styles.order_now_subheader}>Enjoy a new jar every month!</h3>
+        </div>
+      </div>
+    </div>
+    <div className={styles.background_image_mobile}>
+      <div className={styles.background_image_mobile_image} style={{ backgroundImage: `url(${backgroundMobile})` }} />
+      <div className={styles.order_now_mobile}>
+        <h2 className={styles.order_now_mobile_header}>Peanut Butter Subscriptions</h2>
+        <h3 className={styles.order_now_mobile_subheader}>Enjoy a new jar every month!</h3>
+      </div>
+    </div>
   </>
 )
 

@@ -33,7 +33,7 @@ const Menu = ({ nav, toggleOpen }: MenuProps): JSX.Element => {
     <nav className={styles.nav} ref={nav}>
       <ul className={styles.menu}>
         {links.map(({ href, label }) => (
-          <li className={styles.menu_item} key={href} onClick={toggleOpen} tabIndex={0}>
+          <li className={styles.menu_item} key={href} onClick={toggleOpen} tabIndex={-1}>
             <Link href={href}>
               <a className={styles.menu_item_link}>{label}</a>
             </Link>

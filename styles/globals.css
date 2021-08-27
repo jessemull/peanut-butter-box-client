@@ -23,3 +23,11 @@ a {
   font-weight: 400;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Radiant";
+  src: url("/fonts/Radiant.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
