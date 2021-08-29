@@ -103,8 +103,13 @@
 .price_header {
   font-family: 'AntipastoPro', sans-serif;
   font-weight: 575;
+  margin: 0;
   padding-bottom: 16px;
   text-transform: uppercase;
+}
+
+.price_subheader {
+  margin: 0;
 }
 
 .price_subheader:last-of-type {
@@ -136,6 +141,7 @@
 .title {
   font-family: 'AntipastoPro', sans-serif;
   font-weight: 400;
+  margin: 0;
   padding-bottom: 16px;
   text-transform: uppercase;
 }

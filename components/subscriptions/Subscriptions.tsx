@@ -39,27 +39,27 @@ const Subscriptions = (): JSX.Element => {
           ? <div>Loading...</div>
           : subscriptions.map(({ description, price, productId, title }) => (
             <div className={styles.product} key={productId}>
-              <div className={styles.title}>{title}</div>
-              <div className={styles.description}>{description}</div>
+              <h4 className={styles.title}>{title}</h4>
+              <p className={styles.description}>{description}</p>
               <div className={styles.all_prices}>
                 <div className={styles.prices_container}>
                   <div className={styles.prices}>
-                    <div className={styles.price_header}>One Year</div>
-                    <div className={styles.price_subheader}>${price.full.total} / YEAR</div>
-                    <div className={styles.price_subheader}>${price.full.monthly} / MONTH</div>
+                    <h5 className={styles.price_header}>One Year</h5>
+                    <p className={styles.price_subheader}>${price.full.total} / YEAR</p>
+                    <p className={styles.price_subheader}>${price.full.monthly} / MONTH</p>
                   </div>
                   <div className={styles.add_to_cart}>
-                    <SquareButton id="add-to-cart-one-year" label="Add to Cart" onClick={() => console.log('one year')} />
+                    <SquareButton id={`add-to-cart-one-year-${productId}`} label="Add to Cart" onClick={() => console.log('one year')} />
                   </div>
                 </div>
                 <div className={styles.prices_container}>
                   <div className={styles.prices}>
-                    <div className={styles.price_header}>Six Months</div>
-                    <div className={styles.price_subheader}>${price.half.total} / YEAR</div>
-                    <div className={styles.price_subheader}>${price.half.monthly} / MONTH</div>
+                    <h5 className={styles.price_header}>Six Months</h5>
+                    <p className={styles.price_subheader}>${price.half.total} / YEAR</p>
+                    <p className={styles.price_subheader}>${price.half.monthly} / MONTH</p>
                   </div>
                   <div className={styles.add_to_cart}>
-                    <SquareButton id="add-to-cart-six-months" label="Add to Cart" onClick={() => console.log('six months')} />
+                    <SquareButton id={`add-to-cart-six-months-${productId}`} label="Add to Cart" onClick={() => console.log('six months')} />
                   </div>
                 </div>
               </div>
