@@ -1,0 +1,19 @@
+.icon_container {
+  position: relative;
+}
+
+.num_products {
+  align-items: center;
+  background-color: #293E6A;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  font-weight: bold;
+  font-size: 10px;
+  position: absolute;
+  justify-content: center;
+  top: -4px;
+  right: -6px;
+  height: 16px;
+  width: 16px;
+}

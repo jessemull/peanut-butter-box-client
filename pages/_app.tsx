@@ -6,6 +6,7 @@ import Menu from '../components/top-nav/Menu'
 import TopNav from '../components/top-nav'
 import styles from '../styles/app.module.css'
 import '../styles/globals.css'
+import CartProvider from '../providers/cart'
 
 function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   const nav = useRef<HTMLHeadingElement>(null)
@@ -24,12 +25,14 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   }, [])
   return (
     <OAuthProvider>
-      <TopNav toggleOpen={toggleOpen} />
-      <div className={styles.app_container}>
-        <Component {...pageProps} />
-      </div>
-      <BottomNav />
-      <Menu nav={nav} toggleOpen={toggleOpen} />
+      <CartProvider>
+        <TopNav toggleOpen={toggleOpen} />
+        <div className={styles.app_container}>
+          <Component {...pageProps} />
+        </div>
+        <BottomNav />
+        <Menu nav={nav} toggleOpen={toggleOpen} />
+      </CartProvider>
     </OAuthProvider>
   )
 }

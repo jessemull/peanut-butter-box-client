@@ -1,44 +1,32 @@
 import Link from 'next/link'
 import { useContext } from 'react'
-import { OAuthContext } from '../../providers/oauth'
 import CartIcon from '../icons/Cart'
 import ProfileIcon from '../icons/Profile'
 import SearchIcon from '../icons/Search'
 import styles from './Icons.module.css'
-
-const icons = (isSignedIn: boolean) => [{
-  Icon: SearchIcon,
-  label: 'search'
-}, {
-  Icon: ProfileIcon,
-  href: isSignedIn ? '/profile' : '/signin',
-  label: 'profile'
-}, {
-  Icon: CartIcon,
-  href: '/cart',
-  label: 'cart'
-}]
+import { OAuthContext } from '../../providers/oauth'
+import { CartContext } from '../../providers/cart'
 
 const Icons = (): JSX.Element => {
+  const { products } = useContext(CartContext)
   const { getIdToken } = useContext(OAuthContext)
   const isSignedIn = Boolean(getIdToken())
+
   return (
     <>
-      {icons(isSignedIn).map(({ Icon, href, label }) =>
-        href
-          ? (
-              <div className={styles.icon_container} key={label}>
-                <Link href={href}>
-                  <a><Icon /></a>
-                </Link>
-              </div>
-            )
-          : (
-              <button aria-label={label} className={styles.icon_container_search} key={label}>
-                <Icon />
-              </button>
-            )
-      )}
+      <button aria-label="search" className={styles.icon_container_search}>
+        <SearchIcon />
+      </button>
+      <div className={styles.icon_container}>
+        <Link href={isSignedIn ? '/profile' : '/signin'}>
+          <a><ProfileIcon /></a>
+        </Link>
+      </div>
+      <div className={styles.icon_container}>
+        <Link href="/cart">
+          <a><CartIcon numProducts={products.length} /></a>
+        </Link>
+      </div>
     </>
   )
 }

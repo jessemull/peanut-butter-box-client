@@ -5,6 +5,7 @@ import configProd from './config.prod'
 const stage = process.env.STAGE || 'dev'
 
 interface Config {
+  cartItem: string;
   healthcheckUrl: string;
   productsUrl: string;
   redirectUri: string;
