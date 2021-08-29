@@ -1,0 +1,16 @@
+.square_button {
+  background-color: #293E6A;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  color: white;
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  height: 50px;
+  padding: 0px 16px 0px 16px;
+  text-transform: uppercase;
+}
+
+.square_button:hover {
+  cursor: pointer;
+}

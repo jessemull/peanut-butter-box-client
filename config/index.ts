@@ -6,6 +6,7 @@ const stage = process.env.STAGE || 'dev'
 
 interface Config {
   healthcheckUrl: string;
+  productsUrl: string;
   redirectUri: string;
   usersUrl: string;
 }

@@ -1,0 +1,141 @@
+@media screen and (max-width: 600px) {
+  .all_prices {
+    flex-direction: column;
+  }
+  .description {
+    padding-bottom: 32px;
+    width: 90%;
+  }
+  .prices_container:first-of-type {
+    padding-right: 0px;
+  }
+  .prices_container:last-of-type {
+    padding-left: 0px;
+  }
+  .price_header {
+    font-size: 2rem;
+  }
+  .price_subheader {
+    font-size: 1.25rem;
+  }
+  .product {
+    padding: 0px;
+  }
+  .subscriptions {
+    padding: 0px;
+  }
+  .title {
+    font-size: 2.75rem;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .all_prices {
+    flex-direction: column;
+  }
+  .description {
+    padding-bottom: 48px;
+    width: 75%;
+  }
+  .prices_container:first-of-type {
+    padding-right: 0px;
+  }
+  .prices_container:last-of-type {
+    padding-left: 0px;
+  }
+  .price_header {
+    font-size: 2.5rem;
+  }
+  .price_subheader {
+    font-size: 1.5rem;
+  }
+  .product {
+    padding: 32px;
+  }
+  .subscriptions {
+    padding: 64px;
+  }
+  .title {
+    font-size: 3.5rem;
+  }
+}
+
+@media screen and (min-width: 1250px) {
+  .all_prices {
+    flex-direction: row;
+  }
+  .description {
+    padding-bottom: 48px;
+    width: 45%;
+  }
+  .prices_container:first-of-type {
+    padding-right: 32px;
+  }
+  .prices_container:last-of-type {
+    padding-left: 32px;
+  }
+  .price_subheader {
+    font-size: 1.5rem;
+  }
+  .product {
+    padding: 32px;
+  }
+  .subscriptions {
+    padding: 64px;
+  }
+}
+
+.all_prices {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.add_to_cart {
+  margin-bottom: 48px;
+}
+
+.description {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.price_header {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 575;
+  padding-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.price_subheader:last-of-type {
+  padding-bottom: 24px;
+}
+
+.prices {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prices_container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.title {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 400;
+  padding-bottom: 16px;
+  text-transform: uppercase;
+}
