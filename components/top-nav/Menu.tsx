@@ -8,9 +8,6 @@ export const links = [{
   href: '#subscriptions',
   label: 'Subscriptions'
 }, {
-  href: '/reviews',
-  label: 'Reviews'
-}, {
   href: '/contact',
   label: 'Contact'
 }, {
