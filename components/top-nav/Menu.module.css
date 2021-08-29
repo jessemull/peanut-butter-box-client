@@ -24,6 +24,16 @@
   text-transform: uppercase;
 }
 
+.menu_item_sign_out {
+  background: none;
+  display: inline-block;
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 0.9rem;
+  border: none;
+  padding: 0;
+  text-transform: uppercase;
+}
+
 .nav {
   background: #FFFFFF;
   border-right: 1px solid #CCCCCC;

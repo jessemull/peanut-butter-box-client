@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { RefObject, useContext } from 'react'
+import { OAuthContext } from '../../providers/oauth'
 import PropTypes from 'prop-types'
-import { RefObject } from 'react'
 import styles from './Menu.module.css'
 
 export const links = [{
@@ -18,9 +19,6 @@ export const links = [{
 }, {
   href: '/signup',
   label: 'Sign Up'
-}, {
-  href: '/signin',
-  label: 'Sign In'
 }]
 
 interface MenuProps {
@@ -29,6 +27,8 @@ interface MenuProps {
 }
 
 const Menu = ({ nav, toggleOpen }: MenuProps): JSX.Element => {
+  const { getIdToken, signOut } = useContext(OAuthContext)
+  const isSignedIn = Boolean(getIdToken())
   return (
     <nav className={styles.nav} ref={nav}>
       <ul className={styles.menu}>
@@ -39,6 +39,16 @@ const Menu = ({ nav, toggleOpen }: MenuProps): JSX.Element => {
             </Link>
           </li>
         ))}
+        {isSignedIn
+          ? <li className={styles.menu_item} onClick={toggleOpen} tabIndex={-1}>
+              <button aria-label="Sign Out" className={styles.menu_item_sign_out} onClick={signOut}>Sign Out</button>
+            </li>
+          : <li className={styles.menu_item} onClick={toggleOpen} tabIndex={-1}>
+              <Link href="/signin">
+                <a className={styles.menu_item_link}>Sign In</a>
+              </Link>
+            </li>
+        }
       </ul>
     </nav>
   )
