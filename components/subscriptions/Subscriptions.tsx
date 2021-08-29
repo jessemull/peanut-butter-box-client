@@ -27,8 +27,10 @@ const Subscriptions = (): JSX.Element => {
   const { data = [], loading } = useFetch(productsUrl)
 
   useEffect(() => {
-    setSubscriptions(data.reverse())
-  }, [data])
+    if (data.length > 0) {
+      setSubscriptions(data.reverse())
+    }
+  }, [loading]) // eslint-disable-line
 
   return (
     <div className={styles.subscriptions} id="subscriptions">
@@ -47,7 +49,7 @@ const Subscriptions = (): JSX.Element => {
                     <div className={styles.price_subheader}>${price.full.monthly} / MONTH</div>
                   </div>
                   <div className={styles.add_to_cart}>
-                    <SquareButton id="add-to-cart-one-year" label="Add to Cart" />
+                    <SquareButton id="add-to-cart-one-year" label="Add to Cart" onClick={() => console.log('one year')} />
                   </div>
                 </div>
                 <div className={styles.prices_container}>
@@ -57,7 +59,7 @@ const Subscriptions = (): JSX.Element => {
                     <div className={styles.price_subheader}>${price.half.monthly} / MONTH</div>
                   </div>
                   <div className={styles.add_to_cart}>
-                    <SquareButton id="add-to-cart-six-months" label="Add to Cart" />
+                    <SquareButton id="add-to-cart-six-months" label="Add to Cart" onClick={() => console.log('six months')} />
                   </div>
                 </div>
               </div>
