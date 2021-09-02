@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useFetch<Data, Error> (url: string): { data: Data | undefined; error: Error | undefined; loading: boolean } {
+function useFetch<Data, Error> (url: string, token?: string): { data: Data | undefined; error: Error | undefined; loading: boolean } {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Data>()
   const [error, setError] = useState<Error>()
@@ -9,7 +9,8 @@ function useFetch<Data, Error> (url: string): { data: Data | undefined; error: E
     const fetchData = async () => {
       try {
         setLoading(true)
-        const response = await fetch(url)
+        const options = token ? { headers: { Authorization: `Bearer ${token}` } }: {}
+        const response = await fetch(url, options)
         const data = await response.json() // eslint-disable-line
         setData(data)
         setLoading(false)

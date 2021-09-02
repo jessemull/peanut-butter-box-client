@@ -1,5 +1,5 @@
-import ComingSoon from '../components/comingsoon'
+import Profile from '../components/profile'
 
-const Profile = (): JSX.Element => <ComingSoon />
+const ProfilePage = (): JSX.Element => <Profile />
 
-export default Profile
+export default ProfilePage
