@@ -4,6 +4,7 @@ import config from '../../config'
 import SquareButton from '../buttons/Square'
 import styles from './Subscriptions.module.css'
 import { CartContext } from '../../providers/cart'
+import ProgressDots from '../progress/ProgressDots'
 
 const { productsUrl } = config
 
@@ -38,7 +39,9 @@ const Subscriptions = (): JSX.Element => {
     <div className={styles.subscriptions} id="subscriptions">
       {
         loading
-          ? <div>Loading...</div>
+          ? <div className={styles.progress_container}>
+              <ProgressDots />
+            </div>
           : subscriptions.map(subscription => (
             <div className={styles.product} key={subscription.productId}>
               <h4 className={styles.title}>{subscription.title}</h4>

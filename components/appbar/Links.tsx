@@ -4,7 +4,7 @@ import { OAuthContext } from '../../providers/oauth'
 import styles from './Links.module.css'
 
 export const links = [{
-  href: '#subscriptions',
+  href: '/#subscriptions',
   label: 'Subscriptions'
 }, {
   href: '/contact',
@@ -20,6 +20,7 @@ export const links = [{
 const Links = (): JSX.Element => {
   const { getIdToken, signOut } = useContext(OAuthContext)
   const isSignedIn = Boolean(getIdToken())
+
   return (
     <nav>
       <ul className={styles.app_bar_links}>

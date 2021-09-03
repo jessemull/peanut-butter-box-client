@@ -138,6 +138,11 @@
   width: 100%;
 }
 
+.progress_container {
+  display: flex;
+  justify-content: center;
+}
+
 .title {
   font-family: 'AntipastoPro', sans-serif;
   font-weight: 400;
