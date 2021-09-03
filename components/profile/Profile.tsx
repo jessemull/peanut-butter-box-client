@@ -9,8 +9,7 @@ const background = `linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ),
 
 const Profile = (): JSX.Element => {
   const router = useRouter()
-  const { getIdToken } = useContext(OAuthContext)
-  const isSignedIn = Boolean(getIdToken())
+  const { isSignedIn } = useContext(OAuthContext)
 
   useEffect(() => {
     const checkSignIn = async () => {

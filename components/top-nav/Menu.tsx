@@ -24,8 +24,7 @@ interface MenuProps {
 }
 
 const Menu = ({ nav, toggleOpen }: MenuProps): JSX.Element => {
-  const { getIdToken, signOut } = useContext(OAuthContext)
-  const isSignedIn = Boolean(getIdToken())
+  const { isSignedIn, signOut } = useContext(OAuthContext)
   return (
     <nav className={styles.nav} ref={nav}>
       <ul className={styles.menu}>

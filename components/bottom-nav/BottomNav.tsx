@@ -8,8 +8,7 @@ import styles from './BottomNav.module.css'
 
 const Icons = (): JSX.Element => {
   const { products } = useContext(CartContext)
-  const { getIdToken } = useContext(OAuthContext)
-  const isSignedIn = Boolean(getIdToken())
+  const { isSignedIn } = useContext(OAuthContext)
   return (
     <div className={styles.bottom_nav}>
       <Link href={isSignedIn ? '/profile' : '/signin'}>

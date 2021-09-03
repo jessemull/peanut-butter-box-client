@@ -9,8 +9,7 @@ import { CartContext } from '../../providers/cart'
 
 const Icons = (): JSX.Element => {
   const { products } = useContext(CartContext)
-  const { getIdToken } = useContext(OAuthContext)
-  const isSignedIn = Boolean(getIdToken())
+  const { isSignedIn } = useContext(OAuthContext)
 
   return (
     <>

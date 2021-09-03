@@ -18,8 +18,7 @@ export const links = [{
 }]
 
 const Links = (): JSX.Element => {
-  const { getIdToken, signOut } = useContext(OAuthContext)
-  const isSignedIn = Boolean(getIdToken())
+  const { isSignedIn, signOut } = useContext(OAuthContext)
 
   return (
     <nav>

@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { OktaAuth } from '@okta/okta-auth-js'
 import config from '../config'
 
@@ -26,6 +26,7 @@ export const OAuthContext = createContext({
   authClient: new OktaAuth(oktaConfig),
   getAccessToken: (): string | undefined => '',
   getIdToken: (): string | undefined => '',
+  isSignedIn: false,
   signIn: (credentials: SignInInput) => Promise.resolve(), // eslint-disable-line
   signOut: () => Promise.resolve()
 })
@@ -33,6 +34,18 @@ export const OAuthContext = createContext({
 const authClient: OktaAuth = new OktaAuth(oktaConfig)
 
 const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
+  const [isSignedIn, setIsSignedIn] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const signedIn = await authClient.isAuthenticated()
+      if (signedIn !== isSignedIn) {
+        setIsSignedIn(signedIn)
+      }
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [isSignedIn])
+
   const signIn = async ({ username, password }: SignInInput) => {
     const session = await authClient
       .signInWithCredentials({
@@ -65,6 +78,7 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
       authClient,
       getAccessToken,
       getIdToken,
+      isSignedIn,
       signIn,
       signOut
     }}>
