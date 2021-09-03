@@ -67,7 +67,10 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
     }
   }
 
-  const signOut = () => authClient.signOut()
+  const signOut = async () => {
+    await authClient.signOut()
+    setIsSignedIn(false)
+  }
 
   const getIdToken = () => authClient.getIdToken()
 
