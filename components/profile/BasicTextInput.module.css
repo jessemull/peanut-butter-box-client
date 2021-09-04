@@ -1,0 +1,50 @@
+.info_block_padding {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+  padding-bottom: 16px;
+  position: relative;
+}
+
+.info_block_padding input:disabled {
+  border-bottom: none;
+  cursor: not-allowed;
+}
+
+.info_block_padding input {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.info_block_label {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.info_block_value {
+  border: 0;
+  margin: 0;
+  padding: 8px 0px 4px 0px;
+  font-weight: 100;
+}
+
+.info_block_value:focus {
+  outline: none;
+}
+
+.info_block_value ~ .focus_border {
+  position: absolute;
+	bottom: 16px;
+	left: 50%;
+	width: 0;
+	height: 1px;
+	background-color: #293E6A;
+	transition: 0.4s;
+}
+ 
+.info_block_value:focus ~ .focus_border {
+	width: 100%;
+	transition: 0.4s;
+	left: 0;
+}

@@ -9,16 +9,16 @@ const background = `linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ),
 
 const Profile = (): JSX.Element => {
   const router = useRouter()
-  const { isSignedIn } = useContext(OAuthContext)
+  const { isSignedIn, isSignedInLoaded } = useContext(OAuthContext)
 
   useEffect(() => {
     const checkSignIn = async () => {
-      if (!isSignedIn) {
+      if (!isSignedIn && isSignedInLoaded) {
         await router.push('/signin')
       }
     }
     checkSignIn() // eslint-disable-line
-  }, [isSignedIn, router])
+  }, [isSignedIn, isSignedInLoaded, router])
 
   return (
     <div className={styles.profile_container} style={{ backgroundImage: background }}>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import set from 'lodash.set'
 import { useEffect, useState } from 'react'
 import BasicTextInput from './BasicTextInput'
-import styles from './Accordion.module.css'
+import styles from './LoginForm.module.css'
 
 interface LoginFormProps {
   user: {

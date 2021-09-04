@@ -1,12 +1,7 @@
 import styles from './Progress.module.css'
 
 const Progress = (): JSX.Element => (
-  <div className={styles.lds_ring}>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <div className={styles.spinner} />
 )
 
 export default Progress

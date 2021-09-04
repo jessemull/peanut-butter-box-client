@@ -9,7 +9,7 @@ function useFetch<Data, Error> (url: string, token?: string): { data: Data | und
     const fetchData = async () => {
       try {
         setLoading(true)
-        const options = token ? { headers: { Authorization: `Bearer ${token}` } }: {}
+        const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
         const response = await fetch(url, options)
         const data = await response.json() // eslint-disable-line
         setData(data)

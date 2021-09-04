@@ -27,6 +27,7 @@ export const OAuthContext = createContext({
   getAccessToken: (): string | undefined => '',
   getIdToken: (): string | undefined => '',
   isSignedIn: false,
+  isSignedInLoaded: false,
   signIn: (credentials: SignInInput) => Promise.resolve(), // eslint-disable-line
   signOut: () => Promise.resolve()
 })
@@ -35,16 +36,23 @@ const authClient: OktaAuth = new OktaAuth(oktaConfig)
 
 const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [isSignedInLoaded, setIsSignedInLoaded] = useState(false)
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const signedIn = await authClient.isAuthenticated()
-      if (signedIn !== isSignedIn) {
-        setIsSignedIn(signedIn)
+    const interval = setInterval(() => {
+      const checkToken = async () => {
+        const signedIn = await authClient.isAuthenticated()
+        if (signedIn !== isSignedIn) {
+          setIsSignedIn(signedIn)
+        }
+        if (!isSignedInLoaded) {
+          setIsSignedInLoaded(true)
+        }
       }
+      checkToken() // eslint-disable-line
     }, 1000)
     return () => clearInterval(interval)
-  }, [isSignedIn])
+  }, [isSignedIn, isSignedInLoaded])
 
   const signIn = async ({ username, password }: SignInInput) => {
     const session = await authClient
@@ -82,6 +90,7 @@ const OAuthProvider = ({ children }: OAuthProviderProps): JSX.Element => {
       getAccessToken,
       getIdToken,
       isSignedIn,
+      isSignedInLoaded,
       signIn,
       signOut
     }}>

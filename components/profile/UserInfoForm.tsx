@@ -1,11 +1,15 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import set from 'lodash.set'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import BasicTextInput from './BasicTextInput'
+import config from '../../config'
 import EditIcon from '../icons/Edit'
-import styles from './Accordion.module.css'
+import styles from './UserInfoForm.module.css'
 import { SubmitButton } from '../buttons'
+import { OAuthContext } from '../../providers/oauth'
+
+const { usersUrl } = config
 
 interface User {
   city?: string;
@@ -22,8 +26,11 @@ interface UserInfoFormProps {
 }
 
 const UserInfoForm = ({ user }: UserInfoFormProps): JSX.Element => {
+  const { getAccessToken } = useContext(OAuthContext)
   const [disabled, setDisabled] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [values, setValues] = useState({})
+  const token = getAccessToken()
 
   const onEdit = () => {
     setDisabled(!disabled)
@@ -34,9 +41,15 @@ const UserInfoForm = ({ user }: UserInfoFormProps): JSX.Element => {
     setValues({ ...values })
   }
 
-  const onSubmit = (event: FormEvent): void => {
+  const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault()
-    console.log(values)
+    try {
+      setLoading(true)
+      await fetch(`${usersUrl}`, { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token as string}` }, method: 'PUT', body: JSON.stringify({ ...values }) })
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -112,7 +125,7 @@ const UserInfoForm = ({ user }: UserInfoFormProps): JSX.Element => {
       </div>
       {!disabled &&
         <div className={styles.submit_button_container}>
-          <SubmitButton id="user-submit" type="square" value="Submit" />
+          <SubmitButton id="user-submit" loading={loading} type="square" value="Submit" />
         </div>
       }
     </form>

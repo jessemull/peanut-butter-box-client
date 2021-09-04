@@ -30,7 +30,7 @@
 }
 
 .submit_button_progress {
+  bottom: 34px;
+  left: calc(50% - 16px);
   position: absolute;
-  left: 42%;
-  top: -18%;
 }

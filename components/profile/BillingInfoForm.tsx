@@ -4,7 +4,7 @@ import set from 'lodash.set'
 import { FormEvent, useEffect, useState } from 'react'
 import BasicTextInput from './BasicTextInput'
 import EditIcon from '../icons/Edit'
-import styles from './Accordion.module.css'
+import styles from './BillingInfoForm.module.css'
 import { SubmitButton } from '../buttons'
 
 interface Billing {
