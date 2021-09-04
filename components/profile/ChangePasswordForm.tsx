@@ -1,7 +1,7 @@
 import get from 'lodash.get'
 import set from 'lodash.set'
 import { FormEvent, useContext, useState } from 'react'
-import BasicTextInput from './BasicTextInput'
+import BasicTextInput from '../inputs/BasicTextInput'
 import config from '../../config'
 import styles from './ChangePasswordForm.module.css'
 import { SubmitButton } from '../buttons'
