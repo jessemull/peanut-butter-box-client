@@ -5,6 +5,7 @@ import styles from './BasicTextInput.module.css'
 interface BasicTextInputProps {
   autoComplete: string;
   disabled?: boolean;
+  errors?: string | Array<string>;
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string;
@@ -12,13 +13,22 @@ interface BasicTextInputProps {
   value?: string;
 }
 
-const BasicTextInput = ({ autoComplete, disabled, label, onChange, placeholder, type, value }: BasicTextInputProps): JSX.Element => (
-  <div className={styles.info_block_padding}>
-    <label className={styles.info_block_label} htmlFor={`${label}-input`}>{label}</label>
-    <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} onChange={onChange} placeholder={placeholder} type={type} value={value} />
-    <span className={styles.focus_border}></span>
-  </div>
-)
+const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, placeholder, type, value }: BasicTextInputProps): JSX.Element => {
+  const errorsArray = Array.isArray(errors) ? errors : errors && [errors]
+  return (
+    <div className={styles.info_block_padding}>
+      <label className={styles.info_block_label} htmlFor={`${label}-input`}>{label}</label>
+      <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} onChange={onChange} placeholder={placeholder} type={type} value={value} />
+      <span className={styles.focus_border}></span>
+      {
+        errorsArray && errorsArray.length > 0 &&
+        <ul className={styles.errors_list}>
+          {errorsArray.map(error => <li className={styles.error} key={error}>{error}</li>)}
+        </ul>
+      }
+    </div>
+  )
+}
 
 BasicTextInput.propTypes = {
   autoComplete: PropTypes.string,
