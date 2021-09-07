@@ -125,24 +125,28 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
           value={get(values, 'billingAddress.streetAddress', '') as string}
         />
         <div className={styles.address_block}>
-          <BasicTextInput
-            autoComplete="address-level2"
-            disabled={disabled}
-            errors={errors.city}
-            label="City"
-            onChange={event => onChange('billingAddress.city', event.target.value)}
-            placeholder="Add a city"
-            value={get(values, 'billingAddress.city', '') as string}
-          />
-          <BasicTextInput
-            autoComplete="address-level1"
-            disabled={disabled}
-            errors={errors.state}
-            label="State / Province"
-            onChange={event => onChange('billingAddress.state', event.target.value)}
-            placeholder="Add a state/province"
-            value={get(values, 'billingAddress.state', '') as string}
-          />
+          <div className={styles.city}>
+            <BasicTextInput
+              autoComplete="address-level2"
+              disabled={disabled}
+              errors={errors.city}
+              label="City"
+              onChange={event => onChange('billingAddress.city', event.target.value)}
+              placeholder="Add a city"
+              value={get(values, 'billingAddress.city', '') as string}
+            />
+          </div>
+          <div className={styles.state}>
+            <BasicTextInput
+              autoComplete="address-level1"
+              disabled={disabled}
+              errors={errors.state}
+              label="State / Province"
+              onChange={event => onChange('billingAddress.state', event.target.value)}
+              placeholder="Add a state/province"
+              value={get(values, 'billingAddress.state', '') as string}
+            />
+          </div>
         </div>
         <BasicTextInput
           autoComplete="postal-code"

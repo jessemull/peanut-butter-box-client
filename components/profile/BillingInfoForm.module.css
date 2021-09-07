@@ -1,5 +1,11 @@
 .address_block {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.city {
+  flex-grow: 1;
+  margin-right: 16px;
 }
 
 .edit_icon {
@@ -23,6 +29,10 @@
   margin: 0;
   padding-bottom: 16px;
   text-transform: uppercase;
+}
+
+.state {
+  flex-grow: 1;
 }
 
 .submit_button_container {

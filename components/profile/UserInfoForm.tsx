@@ -186,24 +186,28 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           value={get(values, 'streetAddress', '')}
         />
         <div className={styles.address_block}>
-          <BasicTextInput
-            autoComplete="address-level2"
-            disabled={disabled}
-            errors={errors.city}
-            label="City"
-            onChange={event => onChange('city', event.target.value)}
-            placeholder="Add a city"
-            value={get(values, 'city', '')}
-          />
-          <BasicTextInput
-            autoComplete="address-level1"
-            disabled={disabled}
-            errors={errors.state}
-            label="State/Province"
-            onChange={event => onChange('state', event.target.value)}
-            placeholder="Add a state/province"
-            value={get(values, 'state', '')}
-          />
+          <div className={styles.city}>
+            <BasicTextInput
+              autoComplete="address-level2"
+              disabled={disabled}
+              errors={errors.city}
+              label="City"
+              onChange={event => onChange('city', event.target.value)}
+              placeholder="Add a city"
+              value={get(values, 'city', '')}
+            />
+          </div>
+          <div className={styles.state}>
+            <BasicTextInput
+              autoComplete="address-level1"
+              disabled={disabled}
+              errors={errors.state}
+              label="State/Province"
+              onChange={event => onChange('state', event.target.value)}
+              placeholder="Add a state/province"
+              value={get(values, 'state', '')}
+            />
+          </div>
         </div>
         <BasicTextInput
           autoComplete="postal-code"
