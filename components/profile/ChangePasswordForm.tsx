@@ -7,6 +7,7 @@ import styles from './ChangePasswordForm.module.css'
 import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
 import { passwordUtil } from '../../util'
+import { doPost } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -33,7 +34,7 @@ const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
     set(values, key, value)
     setValues({ ...values })
   }
-  console.log(errors.resetError)
+
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault()
     const { confirmNewPassword, newPassword, oldPassword } = values
@@ -43,11 +44,10 @@ const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
       try {
         setLoading(true)
         setErrors(defaultErrors)
-        await fetch(`${usersUrl}/change`, { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token as string}` }, method: 'POST', body: JSON.stringify({ id: user.id, newPassword, oldPassword }) })
+        await doPost(`${usersUrl}/change`, JSON.stringify({ id: user.id, newPassword, oldPassword }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
       } catch (error) {
         setLoading(false)
-        errors.resetError = get(error, 'error', 'Could not change password!') as string
         setErrors({ ...errors })
       }
     } else {
@@ -92,11 +92,6 @@ const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
           value={get(values, 'confirmNewPassword', '')}
         />
       </div>
-      {errors.resetError &&
-        <div className={styles.reset_error_container}>
-          <div className={styles.reset_error}>{errors.resetError}</div>
-        </div>
-      }
       <div className={styles.submit_button_container}>
         <SubmitButton id="user-submit" loading={loading} type="square" value="Submit" />
       </div>

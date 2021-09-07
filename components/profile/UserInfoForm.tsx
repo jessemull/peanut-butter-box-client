@@ -8,6 +8,7 @@ import EditIcon from '../icons/Edit'
 import styles from './UserInfoForm.module.css'
 import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
+import { doPut } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -25,8 +26,19 @@ interface UserInfoFormProps {
   user: User;
 }
 
+const defaultErrors = {
+  city: '',
+  firstName: '',
+  lastName: '',
+  primaryPhone: '',
+  state: '',
+  streetAddress: '',
+  zipCode: ''
+}
+
 const UserInfoForm = ({ user }: UserInfoFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
+  const [errors, setErrors] = useState(defaultErrors)
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
   const [values, setValues] = useState({})
@@ -45,7 +57,7 @@ const UserInfoForm = ({ user }: UserInfoFormProps): JSX.Element => {
     event.preventDefault()
     try {
       setLoading(true)
-      await fetch(`${usersUrl}`, { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token as string}` }, method: 'PUT', body: JSON.stringify({ ...values }) })
+      await doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
       setLoading(false)
     } catch (error) {
       setLoading(false)

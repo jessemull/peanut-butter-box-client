@@ -7,6 +7,7 @@ import config from '../../config'
 import styles from './Form.module.css'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
+import { doPost } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -29,10 +30,13 @@ export default function SignIn (): JSX.Element {
       try {
         setLoading(true)
         setEmailError('')
-        await fetch(`${usersUrl}/request/reset`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify({ email }) })
+        setRequestError('')
+        await doPost(`${usersUrl}/request/reset`, JSON.stringify({ email }))
+        console.log('Success')
         await router.push('/resetmessage')
         setLoading(false)
       } catch (err) {
+        console.log('Error', err)
         setLoading(false)
         setRequestError(get(err, 'error', 'Reset request failed!'))
       }

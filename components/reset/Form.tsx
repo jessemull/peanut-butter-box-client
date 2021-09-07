@@ -7,6 +7,7 @@ import config from '../../config'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
 import { passwordUtil } from '../../util'
+import { doPost } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -43,7 +44,7 @@ const Form = (): JSX.Element => {
         setLoading(true)
         setPasswordErrors([])
         setPasswordVerifyError('')
-        await fetch(`${usersUrl}/reset`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify({ resetToken, password }) })
+        await doPost(`${usersUrl}/reset`, JSON.stringify({ resetToken, password }))
         setLoading(false)
         await router.push('/resetsuccess')
       } catch (err) {

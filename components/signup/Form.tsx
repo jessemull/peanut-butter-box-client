@@ -7,6 +7,7 @@ import styles from './Form.module.css'
 import config from '../../config'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
+import { doPost } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -43,7 +44,7 @@ const Form = (): JSX.Element => {
       try {
         setLoading(true)
         setEmailError('')
-        await fetch(usersUrl, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify({ email, firstName, lastName }) })
+        await doPost(usersUrl, JSON.stringify({ email, firstName, lastName }))
         setLoading(false)
         await router.push('/emailmessage')
       } catch (err) {

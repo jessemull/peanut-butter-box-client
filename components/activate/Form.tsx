@@ -7,6 +7,7 @@ import config from '../../config'
 import { SubmitButton } from '../buttons'
 import { TextInput } from '../inputs'
 import { passwordUtil } from '../../util'
+import { doPost } from '../../util/api'
 
 const { usersUrl } = config
 
@@ -43,7 +44,7 @@ const Form = (): JSX.Element => {
         setLoading(true)
         setPasswordErrors([])
         setPasswordVerifyError('')
-        await fetch(`${usersUrl}/verify`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify({ activationToken, password }) })
+        await doPost(`${usersUrl}/verify`, JSON.stringify({ activationToken, password }))
         setLoading(false)
         await router.push('/welcome')
       } catch (err) {
