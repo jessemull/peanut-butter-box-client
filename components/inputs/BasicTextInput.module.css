@@ -1,11 +1,11 @@
 .error {
   color: rgb(255, 0, 0, 0.7);
-  font-size: 0.9em;
-  margin-bottom: 4px;
+  font-size: 0.8em;
 }
 
 .errors_list {
   list-style-type: none;
+  margin: 8px 0px 8px 0px;
   padding-left: 0;
 }
 

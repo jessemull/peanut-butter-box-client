@@ -1,6 +1,7 @@
 import get from 'lodash.get'
+import PropTypes from 'prop-types'
 import set from 'lodash.set'
-import { FormEvent, useContext, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import { BasicTextInput } from '../inputs'
 import config from '../../config'
 import styles from './ChangePasswordForm.module.css'
@@ -16,18 +17,44 @@ interface User {
 }
 
 interface ChangePasswordFormProps {
+  selected: boolean;
   user: User;
+}
+
+interface Errors {
+  confirmNewPassword?: string;
+  newPassword?: Array<string>;
+  oldPassword?: string;
+}
+
+interface FormValues {
+  confirmNewPassword: string;
+  newPassword: string;
+  oldPassword: string;
 }
 
 const defaultErrors = { oldPassword: '', newPassword: [] as string[], confirmNewPassword: '', resetError: '' }
 
 const defaultValues = { oldPassword: '', newPassword: '', confirmNewPassword: '' }
 
-const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
+const validate = (values: FormValues): Errors => {
+  const errors: Errors = {}
+  const isValidPassword = passwordUtil.validator.validate(values.newPassword, { list: true })
+  const isValidVerifyPassword = values.confirmNewPassword === values.newPassword
+  if (isValidPassword.length > 0) {
+    errors.newPassword = passwordUtil.getPasswordErrorMessages(isValidPassword)
+  }
+  if (!isValidVerifyPassword) {
+    errors.confirmNewPassword = 'Passwords do not match'
+  }
+  return errors
+}
+
+const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
-  const [errors, setErrors] = useState(defaultErrors)
+  const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [loading, setLoading] = useState(false)
-  const [values, setValues] = useState(defaultValues)
+  const [values, setValues] = useState<FormValues>({ ...defaultValues })
   const token = getAccessToken()
 
   const onChange = (key: string, value: string): void => {
@@ -37,29 +64,26 @@ const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
 
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault()
-    const { confirmNewPassword, newPassword, oldPassword } = values
-    const isValidPassword = passwordUtil.validator.validate(newPassword, { list: true })
-    const isValidVerifyPassword = confirmNewPassword === newPassword
-    if (isValidPassword.length === 0 && isValidVerifyPassword) {
+    const { newPassword, oldPassword } = values
+    const validated = validate(values)
+    if (Object.keys(validated).length === 0) {
       try {
         setLoading(true)
-        setErrors(defaultErrors)
+        setErrors({ ...defaultErrors })
         await doPost(`${usersUrl}/change`, JSON.stringify({ id: user.id, newPassword, oldPassword }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
       } catch (error) {
         setLoading(false)
-        setErrors({ ...errors })
       }
     } else {
-      if (isValidPassword.length > 0) {
-        errors.newPassword = passwordUtil.getPasswordErrorMessages(isValidPassword)
-      }
-      if (!isValidVerifyPassword) {
-        errors.confirmNewPassword = 'Passwords do not match'
-      }
-      setErrors({ ...errors })
+      setErrors({ ...validated })
     }
   }
+
+  useEffect(() => {
+    setErrors({ ...defaultErrors })
+    setValues({ ...defaultValues })
+  }, [selected])
 
   return (
     <form onSubmit={onSubmit}>
@@ -97,6 +121,13 @@ const ChangePasswordForm = ({ user }: ChangePasswordFormProps): JSX.Element => {
       </div>
     </form>
   )
+}
+
+ChangePasswordForm.propTypes = {
+  selected: PropTypes.bool,
+  user: PropTypes.shape({
+    id: PropTypes.string
+  })
 }
 
 export default ChangePasswordForm

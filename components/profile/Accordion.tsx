@@ -54,16 +54,16 @@ const Accordion = (): JSX.Element => {
             </div>
           : <>
               <Step onSelect={onSelect} selected={selected} title="User">
-                <UserInfoForm user={data as User} />
+                <UserInfoForm selected={selected === 'User'} user={data as User} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Billing">
-                <BillingInfoForm billing={{} as Billing} />
+                <BillingInfoForm billing={{} as Billing} selected={selected === 'Billing'} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Login">
                 <LoginForm user={data as User} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Password">
-                <ChangePasswordForm user={data as User} />
+                <ChangePasswordForm selected={selected === 'Password'} user={data as User} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Orders"></Step>
             </>
