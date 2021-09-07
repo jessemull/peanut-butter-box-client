@@ -9,17 +9,24 @@ interface BasicTextInputProps {
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string;
+  suggestions: Array<string>;
   type: string;
   value?: string;
 }
 
-const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, placeholder, type, value }: BasicTextInputProps): JSX.Element => {
+const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, placeholder, suggestions, type, value }: BasicTextInputProps): JSX.Element => {
   const errorsArray = Array.isArray(errors) ? errors : errors && [errors]
   return (
     <div className={styles.info_block_padding}>
       <label className={styles.info_block_label} htmlFor={`${label}-input`}>{label}</label>
-      <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} onChange={onChange} placeholder={placeholder} type={type} value={value} />
+      <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} list={`${label}-list`} onChange={onChange} placeholder={placeholder} type={type} value={value} />
       <span className={styles.focus_border}></span>
+      {
+        suggestions.length > 0 &&
+          <datalist id={`${label}-list`}>
+            {suggestions.map(suggestion => <option key={suggestion}>{suggestion}</option>)}
+          </datalist>
+      }
       {
         errorsArray && errorsArray.length > 0 &&
         <ul className={styles.errors_list}>
@@ -36,12 +43,14 @@ BasicTextInput.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  suggestions: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string,
   value: PropTypes.string
 }
 
 BasicTextInput.defaultProps = {
   disabled: false,
+  suggestions: [],
   type: 'text'
 }
 
