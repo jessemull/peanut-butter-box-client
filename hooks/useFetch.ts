@@ -1,28 +1,40 @@
 import { useEffect, useState } from 'react'
 
-function useFetch<Data, Error> (url: string, token?: string): { data: Data | undefined; error: Error | undefined; loading: boolean } {
+function useFetch<Data, Error> (url: string, token?: string): { data: Data | undefined; error: Error | undefined; fetchData: () => void, loading: boolean, refetchData: () => void } {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Data>()
   const [error, setError] = useState<Error>()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
-        const response = await fetch(url, options)
-        const data = await response.json() // eslint-disable-line
-        setData(data)
-        setLoading(false)
-      } catch (error) {
-        setError(error)
-        setLoading(false)
-      }
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      const response = await fetch(url, options)
+      const data = await response.json() // eslint-disable-line
+      setData(data)
+      setLoading(false)
+    } catch (error) {
+      setError(error)
+      setLoading(false)
     }
+  }
+
+  const refetchData = async () => {
+    try {
+      const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      const response = await fetch(url, options)
+      const data = await response.json() // eslint-disable-line
+      setData(data)
+    } catch (error) {
+      setError(error)
+    }
+  }
+
+  useEffect(() => {
     fetchData() // eslint-disable-line
   }, [url])
 
-  return { data, error, loading }
+  return { data, error, fetchData, loading, refetchData }
 }
 
 export default useFetch

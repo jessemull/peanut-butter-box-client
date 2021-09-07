@@ -39,7 +39,7 @@ interface Error {
 const Accordion = (): JSX.Element => {
   const [selected, setSelected] = useState('')
   const { getAccessToken } = useContext(OAuthContext)
-  const { data = {}, loading } = useFetch<User, Error>(usersUrl, getAccessToken())
+  const { data = {}, loading, refetchData } = useFetch<User, Error>(usersUrl, getAccessToken())
 
   const onSelect = (title: string): void => {
     setSelected(selected === title ? '' : title)
@@ -54,7 +54,7 @@ const Accordion = (): JSX.Element => {
             </div>
           : <>
               <Step onSelect={onSelect} selected={selected} title="User">
-                <UserInfoForm selected={selected === 'User'} user={data as User} />
+                <UserInfoForm selected={selected === 'User'} user={data as User} refetchUser={refetchData} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Billing">
                 <BillingInfoForm billing={{} as Billing} selected={selected === 'Billing'} />

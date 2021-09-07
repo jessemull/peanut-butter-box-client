@@ -44,6 +44,7 @@ interface User {
 }
 
 interface UserInfoFormProps {
+  refetchUser: () => void;
   selected: boolean;
   user: User;
 }
@@ -87,7 +88,7 @@ const validate = (values: FormValues): Errors => {
   return errors
 }
 
-const UserInfoForm = ({ selected, user }: UserInfoFormProps): JSX.Element => {
+const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
@@ -119,6 +120,7 @@ const UserInfoForm = ({ selected, user }: UserInfoFormProps): JSX.Element => {
         setErrors({ ...defaultErrors })
         await doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
+        refetchUser()
       } catch (error) {
         setLoading(false)
       }
@@ -223,6 +225,7 @@ const UserInfoForm = ({ selected, user }: UserInfoFormProps): JSX.Element => {
 }
 
 UserInfoForm.propTypes = {
+  refetchUser: PropTypes.func,
   selected: PropTypes.bool,
   user: PropTypes.shape({
     city: PropTypes.string,
