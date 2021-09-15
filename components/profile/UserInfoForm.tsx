@@ -2,19 +2,22 @@ import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import set from 'lodash.set'
 import { isValidPhoneNumber } from 'libphonenumber-js'
-import { FormEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react'
 import { BasicTextInput } from '../inputs'
 import config from '../../config'
 import EditIcon from '../icons/Edit'
 import styles from './UserInfoForm.module.css'
 import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
-import { doPut } from '../../util/api'
+import { doGet, doPut } from '../../util/api'
+import { useFetch } from '../../hooks'
+import BasicSelect from '../inputs/BasicSelect'
 
-const { usersUrl } = config
+const { placesUrl, usersUrl } = config
 
 interface Errors {
   city?: string;
+  countryCode?: string;
   firstName?: string;
   lastName?: string;
   primaryPhone?: string;
@@ -25,6 +28,7 @@ interface Errors {
 
 interface FormValues {
   city?: string;
+  countryCode?: string;
   firstName?: string;
   lastName?: string;
   primaryPhone?: string;
@@ -33,8 +37,18 @@ interface FormValues {
   zipCode?: string;
 }
 
+interface Details {
+  city: string;
+  countryCode: string;
+  number: string;
+  state: string;
+  street: string;
+  zipCode: string;
+}
+
 interface User {
   city?: string;
+  countryCode?: string;
   firstName: string;
   lastName: string;
   primaryPhone?: string;
@@ -49,7 +63,30 @@ interface UserInfoFormProps {
   user: User;
 }
 
+interface AddressSuggestion {
+  label: string;
+  value: string;
+}
+
+interface CitySuggestion {
+  label: string;
+  value: {
+    city: string;
+    countryCode: string;
+    region: string;
+  }
+}
+
+interface StateSuggestion {
+  label: string;
+  value: {
+    countryCode: string;
+    region: string;
+  };
+}
+
 const defaultErrors = {
+  countryCode: '',
   city: '',
   firstName: '',
   lastName: '',
@@ -58,6 +95,14 @@ const defaultErrors = {
   streetAddress: '',
   zipCode: ''
 }
+
+const countries = [{
+  label: 'United States',
+  value: 'US'
+}, {
+  label: 'Canada',
+  value: 'CA'
+}]
 
 const validate = (values: FormValues): Errors => {
   const errors: Errors = {}
@@ -75,6 +120,9 @@ const validate = (values: FormValues): Errors => {
   }
   if (values.primaryPhone && !isValidPhoneNumber(values.primaryPhone, 'US')) {
     errors.primaryPhone = 'Please enter a valid phone number'
+  }
+  if (!values.countryCode) {
+    errors.state = 'Please enter a country'
   }
   if (!values.state) {
     errors.state = 'Please enter a state'
@@ -95,6 +143,9 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
   const [loading, setLoading] = useState(false)
   const [values, setValues] = useState<FormValues>({})
   const token = getAccessToken()
+  const { data: addressSuggestions = [], refetchData: fetchAddresses } = useFetch<Array<AddressSuggestion>, Error>(`${placesUrl}/autocomplete/address?input=${values.streetAddress as string}`, '', true)
+  const { data: citySuggestions = [], refetchData: fetchCities } = useFetch<Array<CitySuggestion>, Error>(`${placesUrl}/autocomplete/city?input=${values.city as string}`, '', true)
+  const { data: stateSuggestions = [], refetchData: fetchStates } = useFetch<Array<StateSuggestion>, Error>(`${placesUrl}/autocomplete/state?input=${values.state as string}`, '', true)
 
   const onEdit = () => {
     if (!disabled) {
@@ -109,6 +160,36 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
   const onChange = (key: string, value: string): void => {
     set(values, key, value)
     setValues({ ...values })
+  }
+
+  const onAddressChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const found = addressSuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      const address = await doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
+      if (address) {
+        setValues({ ...values, city: address.city, state: address.state, streetAddress: `${address.number} ${address.street}`, zipCode: address.zipCode })
+      }
+    } else {
+      onChange('streetAddress', event.target.value)
+    }
+  }
+
+  const onCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const found = citySuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      setValues({ ...values, city: found.value.city, countryCode: found.value.countryCode, state: found.value.region })
+    } else {
+      onChange('city', event.target.value)
+    }
+  }
+
+  const onStateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const found = stateSuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      setValues({ ...values, countryCode: found.value.countryCode, state: found.value.region })
+    } else {
+      onChange('state', event.target.value)
+    }
   }
 
   const onSubmit = async (event: FormEvent): Promise<void> => {
@@ -140,6 +221,20 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
       setDisabled(true)
     }
   }, [selected, user])
+
+  useEffect(() => {
+    fetchAddresses()
+  }, [values.streetAddress])
+
+  useEffect(() => {
+    fetchCities()
+  }, [values.city])
+
+  useEffect(() => {
+    fetchStates()
+  }, [values.state])
+
+  const code = get(values, 'countryCode', '')
 
   return (
     <form onSubmit={onSubmit}>
@@ -181,8 +276,9 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           disabled={disabled}
           errors={errors.streetAddress}
           label="Street Address"
-          onChange={event => onChange('streetAddress', event.target.value)}
+          onChange={onAddressChange}
           placeholder="Add a street address"
+          suggestions={addressSuggestions}
           value={get(values, 'streetAddress', '')}
         />
         <div className={styles.address_block}>
@@ -192,8 +288,9 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
               disabled={disabled}
               errors={errors.city}
               label="City"
-              onChange={event => onChange('city', event.target.value)}
+              onChange={onCityChange}
               placeholder="Add a city"
+              suggestions={citySuggestions}
               value={get(values, 'city', '')}
             />
           </div>
@@ -203,12 +300,22 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
               disabled={disabled}
               errors={errors.state}
               label="State/Province"
-              onChange={event => onChange('state', event.target.value)}
+              onChange={onStateChange}
               placeholder="Add a state/province"
+              suggestions={stateSuggestions}
               value={get(values, 'state', '')}
             />
           </div>
         </div>
+        <BasicSelect
+          disabled={disabled}
+          errors={errors.countryCode}
+          label="Country"
+          onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
+          options={countries}
+          placeholder="Select a country"
+          value={countries.find(({ value }) => code === value)}
+        />
         <BasicTextInput
           autoComplete="postal-code"
           disabled={disabled}

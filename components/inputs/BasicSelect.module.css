@@ -1,0 +1,27 @@
+.container {
+  margin-top: -4px;
+  padding-bottom: 16px;
+  flex-grow: 1;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.error {
+  color: rgb(255, 0, 0, 0.7);
+  font-size: 0.8em;
+}
+
+.errors_list {
+  list-style-type: none;
+  margin: 8px 0px 8px 0px;
+  padding-left: 0;
+}
+
+.label {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+

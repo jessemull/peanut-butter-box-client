@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    '@next/next/no-img-element': 'off'
+    '@next/next/no-img-element': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }

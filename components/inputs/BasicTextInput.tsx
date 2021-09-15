@@ -2,6 +2,10 @@ import PropTypes from 'prop-types'
 import { ChangeEventHandler } from 'react'
 import styles from './BasicTextInput.module.css'
 
+interface Suggestion {
+  label: string;
+  value: any; // eslint-disable-line
+}
 interface BasicTextInputProps {
   autoComplete: string;
   disabled?: boolean;
@@ -9,7 +13,7 @@ interface BasicTextInputProps {
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string;
-  suggestions: Array<string>;
+  suggestions: Array<Suggestion>;
   type: string;
   value?: string;
 }
@@ -24,7 +28,7 @@ const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, place
       {
         suggestions.length > 0 &&
           <datalist id={`${label}-list`}>
-            {suggestions.map(suggestion => <option key={suggestion}>{suggestion}</option>)}
+            {suggestions.map((suggestion) => <option key={suggestion.label}>{suggestion.label}</option>)}
           </datalist>
       }
       {
@@ -40,10 +44,17 @@ const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, place
 BasicTextInput.propTypes = {
   autoComplete: PropTypes.string,
   disabled: PropTypes.bool,
+  errors: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   label: PropTypes.string,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
-  suggestions: PropTypes.arrayOf(PropTypes.string),
+  suggestions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.any
+  })),
   type: PropTypes.string,
   value: PropTypes.string
 }

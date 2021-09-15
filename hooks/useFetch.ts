@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useFetch<Data, Error> (url: string, token?: string): { data: Data | undefined; error: Error | undefined; fetchData: () => void, loading: boolean, refetchData: () => void } {
+function useFetch<Data, Error> (url: string, token?: string, lazy?: boolean): { data: Data | undefined; error: Error | undefined; fetchData: () => void, loading: boolean, refetchData: () => void } {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Data>()
   const [error, setError] = useState<Error>()
@@ -31,7 +31,9 @@ function useFetch<Data, Error> (url: string, token?: string): { data: Data | und
   }
 
   useEffect(() => {
-    fetchData() // eslint-disable-line
+    if (!lazy) {
+      fetchData() // eslint-disable-line
+    }
   }, [url])
 
   return { data, error, fetchData, loading, refetchData }
