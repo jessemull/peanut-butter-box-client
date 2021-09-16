@@ -1,0 +1,32 @@
+.checkbox {
+  margin: -6px 8px 0px 0px;
+}
+
+.checkbox:hover {
+  cursor: pointer;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  padding-bottom: 16px;
+}
+
+.container:hover {
+  cursor: pointer;
+}
+
+.label {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.label:hover {
+  cursor: pointer;
+}
+
+.notAllowed:hover {
+  cursor: not-allowed;
+}

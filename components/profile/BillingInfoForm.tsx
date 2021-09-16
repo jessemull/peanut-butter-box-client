@@ -10,6 +10,8 @@ import styles from './BillingInfoForm.module.css'
 import { SubmitButton } from '../buttons'
 import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
+import Checkbox from '../inputs/Checkbox'
+import UserInfoForm from './UserInfoForm'
 
 const { placesUrl } = config
 
@@ -26,6 +28,7 @@ interface FormValues {
   countryCode?: string;
   state?: string;
   streetAddress?: string;
+  useMailingAddress?: boolean;
   zipCode?: string;
 }
 
@@ -43,11 +46,21 @@ interface Billing {
   countryCode?: string;
   state?: string;
   streetAddress?: string;
+  useMailingAddress?: boolean;
+  zipCode?: string;
+}
+
+interface User {
+  city?: string;
+  countryCode?: string;
+  state?: string;
+  streetAddress?: string;
   zipCode?: string;
 }
 
 interface BillingInfoFormProps {
   billing: Billing;
+  user: User;
   selected: boolean;
 }
 
@@ -114,7 +127,7 @@ const validate = (values: FormValues): Errors => {
   return errors
 }
 
-const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Element => {
+const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX.Element => {
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -133,7 +146,7 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
     }
   }
 
-  const onChange = (key: string, value: string): void => {
+  const onChange = (key: string, value: string | boolean): void => {
     set(values, key, value)
     setValues({ ...values })
   }
@@ -166,6 +179,14 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
       setValues({ ...values, countryCode: found.value.countryCode, state: found.value.region })
     } else {
       onChange('state', event.target.value)
+    }
+  }
+
+  const onUseMailingAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setValues({ ...values, city: user.city, countryCode: user.countryCode, state: user.state, streetAddress: user.streetAddress, useMailingAddress: true, zipCode: user.zipCode })
+    } else {
+      onChange('useMailingAddress', false)
     }
   }
 
@@ -219,64 +240,69 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
           <EditIcon />
         </div>
         <h4 className={styles.info_block_header}>Billing Address</h4>
-        <BasicTextInput
-          autoComplete="street-address"
-          disabled={disabled}
-          errors={errors.streetAddress}
-          id="billing-street-address"
-          label="Street Address"
-          onChange={onAddressChange}
-          placeholder="Add a street address"
-          suggestions={addressSuggestions}
-          value={get(values, 'streetAddress', '')}
-        />
-        <div className={styles.address_block}>
-          <div className={styles.city}>
+        <Checkbox disabled={disabled} id="use-mailing-address" checked={Boolean(values.useMailingAddress)} label="Use Mailing Address" onChange={onUseMailingAddressChange} />
+        {!values.useMailingAddress &&
+          <>
             <BasicTextInput
-              autoComplete="address-level2"
+              autoComplete="street-address"
               disabled={disabled}
-              errors={errors.city}
-              id="billing-city"
-              label="City"
-              onChange={onCityChange}
-              placeholder="Add a city"
-              suggestions={citySuggestions}
-              value={get(values, 'city', '')}
+              errors={errors.streetAddress}
+              id="billing-street-address"
+              label="Street Address"
+              onChange={onAddressChange}
+              placeholder="Add a street address"
+              suggestions={addressSuggestions}
+              value={get(values, 'streetAddress', '')}
             />
-          </div>
-          <div className={styles.state}>
+            <div className={styles.address_block}>
+              <div className={styles.city}>
+                <BasicTextInput
+                  autoComplete="address-level2"
+                  disabled={disabled}
+                  errors={errors.city}
+                  id="billing-city"
+                  label="City"
+                  onChange={onCityChange}
+                  placeholder="Add a city"
+                  suggestions={citySuggestions}
+                  value={get(values, 'city', '')}
+                />
+              </div>
+              <div className={styles.state}>
+                <BasicTextInput
+                  autoComplete="address-level1"
+                  disabled={disabled}
+                  errors={errors.state}
+                  id="billing-state"
+                  label="State/Province"
+                  onChange={onStateChange}
+                  placeholder="Add a state/province"
+                  suggestions={stateSuggestions}
+                  value={get(values, 'state', '')}
+                />
+              </div>
+            </div>
+            <BasicSelect
+              disabled={disabled}
+              errors={errors.countryCode}
+              label="Country"
+              onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
+              options={countries}
+              placeholder="Select a country"
+              value={countries.find(({ value }) => code === value)}
+            />
             <BasicTextInput
-              autoComplete="address-level1"
+              autoComplete="postal-code"
               disabled={disabled}
-              errors={errors.state}
-              id="billing-state"
-              label="State/Province"
-              onChange={onStateChange}
-              placeholder="Add a state/province"
-              suggestions={stateSuggestions}
-              value={get(values, 'state', '')}
+              errors={errors.zipCode}
+              id="billing-zip-code"
+              label="Postal/Zip Code"
+              onChange={event => onChange('zipCode', event.target.value)}
+              placeholder="Add a postal code"
+              value={get(values, 'zipCode', '')}
             />
-          </div>
-        </div>
-        <BasicSelect
-          disabled={disabled}
-          errors={errors.countryCode}
-          label="Country"
-          onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
-          options={countries}
-          placeholder="Select a country"
-          value={countries.find(({ value }) => code === value)}
-        />
-        <BasicTextInput
-          autoComplete="postal-code"
-          disabled={disabled}
-          errors={errors.zipCode}
-          id="billing-zip-code"
-          label="Postal/Zip Code"
-          onChange={event => onChange('zipCode', event.target.value)}
-          placeholder="Add a postal code"
-          value={get(values, 'zipCode', '')}
-        />
+          </>
+        }
       </div>
       {!disabled &&
         <div className={styles.submit_button_container}>
@@ -289,6 +315,14 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
 
 BillingInfoForm.propTypes = {
   billing: PropTypes.shape({
+    city: PropTypes.string,
+    countryCode: PropTypes.string,
+    state: PropTypes.string,
+    streetAddress: PropTypes.string,
+    useMailingAddress: PropTypes.string,
+    zipCode: PropTypes.string
+  }),
+  user: PropTypes.shape({
     city: PropTypes.string,
     countryCode: PropTypes.string,
     state: PropTypes.string,

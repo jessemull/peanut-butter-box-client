@@ -57,7 +57,7 @@ const Accordion = (): JSX.Element => {
                 <UserInfoForm selected={selected === 'User'} user={data as User} refetchUser={refetchData} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Billing">
-                <BillingInfoForm billing={{} as Billing} selected={selected === 'Billing'} />
+                <BillingInfoForm billing={{} as Billing} selected={selected === 'Billing'} user={data as User} />
               </Step>
               <Step onSelect={onSelect} selected={selected} title="Login">
                 <LoginForm user={data as User} />
