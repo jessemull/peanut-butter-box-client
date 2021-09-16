@@ -1,14 +1,46 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import set from 'lodash.set'
-import { FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { BasicTextInput } from '../inputs'
+import { api, validators } from '../../util'
+import config from '../../config'
 import EditIcon from '../icons/Edit'
 import styles from './BillingInfoForm.module.css'
 import { SubmitButton } from '../buttons'
+import { useFetch } from '../../hooks'
+import BasicSelect from '../inputs/BasicSelect'
+
+const { placesUrl } = config
+
+interface Errors {
+  city?: string;
+  countryCode?: string;
+  state?: string;
+  streetAddress?: string;
+  zipCode?: string;
+}
+
+interface FormValues {
+  city?: string;
+  countryCode?: string;
+  state?: string;
+  streetAddress?: string;
+  zipCode?: string;
+}
+
+interface Details {
+  city: string;
+  countryCode: string;
+  number: string;
+  state: string;
+  street: string;
+  zipCode: string;
+}
 
 interface Billing {
   city?: string;
+  countryCode?: string;
   state?: string;
   streetAddress?: string;
   zipCode?: string;
@@ -19,49 +51,77 @@ interface BillingInfoFormProps {
   selected: boolean;
 }
 
-interface Errors {
-  city?: string;
-  state?: string;
-  streetAddress?: string;
-  zipCode?: string;
+interface AddressSuggestion {
+  label: string;
+  value: string;
 }
 
-interface FormValues {
-  city?: string;
-  state?: string;
-  streetAddress?: string;
-  zipCode?: string;
+interface CitySuggestion {
+  label: string;
+  value: {
+    city: string;
+    countryCode: string;
+    region: string;
+  }
+}
+
+interface StateSuggestion {
+  label: string;
+  value: {
+    countryCode: string;
+    region: string;
+  };
 }
 
 const defaultErrors = {
+  countryCode: '',
   city: '',
   state: '',
   streetAddress: '',
   zipCode: ''
 }
 
+const countries = [{
+  label: 'United States',
+  value: 'US'
+}, {
+  label: 'Canada',
+  value: 'CA'
+}]
+
 const validate = (values: FormValues): Errors => {
   const errors: Errors = {}
-  if (!values.city) {
-    errors.city = 'Please enter a city'
-  }
-  if (!values.state) {
-    errors.state = 'Please enter a state'
-  }
-  if (!values.streetAddress) {
-    errors.streetAddress = 'Please enter a street address'
-  }
-  if (!values.zipCode) {
-    errors.zipCode = 'Please enter a zip code'
+  if (values.city || values.countryCode || values.state || values.streetAddress || values.zipCode) {
+    if (!values.city) {
+      errors.city = 'Please enter a city'
+    }
+    if (!values.countryCode) {
+      errors.state = 'Please enter a country'
+    }
+    if (!values.state) {
+      errors.state = 'Please enter a state'
+    }
+    if (!values.streetAddress) {
+      errors.streetAddress = 'Please enter a street address'
+    }
+    if (!values.zipCode) {
+      errors.zipCode = 'Please enter a zip code'
+    }
+    if (values.zipCode && !validators.isValidZipCode(values.zipCode)) {
+      errors.zipCode = 'Please enter a zip code'
+    }
   }
   return errors
 }
 
 const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Element => {
+  const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
-  const [errors, setErrors] = useState<Errors>({})
   const [loading, setLoading] = useState(false)
   const [values, setValues] = useState<FormValues>({})
+  const { data: addressSuggestions = [], refetchData: fetchAddresses } = useFetch<Array<AddressSuggestion>, Error>(`${placesUrl}/autocomplete/address?input=${values.streetAddress as string}`, '', true)
+  const { data: citySuggestions = [], refetchData: fetchCities } = useFetch<Array<CitySuggestion>, Error>(`${placesUrl}/autocomplete/city?input=${values.city as string}`, '', true)
+  const { data: stateSuggestions = [], refetchData: fetchStates } = useFetch<Array<StateSuggestion>, Error>(`${placesUrl}/autocomplete/state?input=${values.state as string}`, '', true)
 
   const onEdit = () => {
     if (!disabled) {
@@ -78,6 +138,37 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
     setValues({ ...values })
   }
 
+  const onAddressChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const found = addressSuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      const address = await api.doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
+      if (address) {
+        const streetAddress = address.number && address.street ? `${address.number} ${address.street}` : `${address.number || ''}${address.street || ''}`
+        setValues({ ...values, city: address.city, countryCode: address.countryCode, state: address.state, streetAddress, zipCode: address.zipCode })
+      }
+    } else {
+      onChange('streetAddress', event.target.value)
+    }
+  }
+
+  const onCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const found = citySuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      setValues({ ...values, city: found.value.city, countryCode: found.value.countryCode, state: found.value.region })
+    } else {
+      onChange('city', event.target.value)
+    }
+  }
+
+  const onStateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const found = stateSuggestions?.find(({ label }) => event.target.value === label)
+    if (found) {
+      setValues({ ...values, countryCode: found.value.countryCode, state: found.value.region })
+    } else {
+      onChange('state', event.target.value)
+    }
+  }
+
   const onSubmit = (event: FormEvent): void => {
     event.preventDefault()
     const validated = validate(values)
@@ -85,9 +176,8 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
       try {
         setLoading(true)
         setErrors({ ...defaultErrors })
-        setTimeout(() => {
-          setLoading(false)
-        }, 2000)
+        console.log(values)
+        setLoading(false)
       } catch (error) {
         setLoading(false)
       }
@@ -106,7 +196,21 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
       setValues({ ...billing })
       setDisabled(true)
     }
-  }, [billing, selected])
+  }, [selected, billing])
+
+  useEffect(() => {
+    fetchAddresses()
+  }, [values.streetAddress])
+
+  useEffect(() => {
+    fetchCities()
+  }, [values.city])
+
+  useEffect(() => {
+    fetchStates()
+  }, [values.state])
+
+  const code = get(values, 'countryCode', '')
 
   return (
     <form onSubmit={onSubmit}>
@@ -119,10 +223,12 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
           autoComplete="street-address"
           disabled={disabled}
           errors={errors.streetAddress}
+          id="billing-street-address"
           label="Street Address"
-          onChange={event => onChange('billingAddress.streetAddress', event.target.value)}
+          onChange={onAddressChange}
           placeholder="Add a street address"
-          value={get(values, 'billingAddress.streetAddress', '') as string}
+          suggestions={addressSuggestions}
+          value={get(values, 'streetAddress', '')}
         />
         <div className={styles.address_block}>
           <div className={styles.city}>
@@ -130,10 +236,12 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
               autoComplete="address-level2"
               disabled={disabled}
               errors={errors.city}
+              id="billing-city"
               label="City"
-              onChange={event => onChange('billingAddress.city', event.target.value)}
+              onChange={onCityChange}
               placeholder="Add a city"
-              value={get(values, 'billingAddress.city', '') as string}
+              suggestions={citySuggestions}
+              value={get(values, 'city', '')}
             />
           </div>
           <div className={styles.state}>
@@ -141,26 +249,38 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
               autoComplete="address-level1"
               disabled={disabled}
               errors={errors.state}
-              label="State / Province"
-              onChange={event => onChange('billingAddress.state', event.target.value)}
+              id="billing-state"
+              label="State/Province"
+              onChange={onStateChange}
               placeholder="Add a state/province"
-              value={get(values, 'billingAddress.state', '') as string}
+              suggestions={stateSuggestions}
+              value={get(values, 'state', '')}
             />
           </div>
         </div>
+        <BasicSelect
+          disabled={disabled}
+          errors={errors.countryCode}
+          label="Country"
+          onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
+          options={countries}
+          placeholder="Select a country"
+          value={countries.find(({ value }) => code === value)}
+        />
         <BasicTextInput
           autoComplete="postal-code"
           disabled={disabled}
           errors={errors.zipCode}
-          label="Postal / Zip Code"
-          onChange={event => onChange('billingAddress.zipCode', event.target.value)}
+          id="billing-zip-code"
+          label="Postal/Zip Code"
+          onChange={event => onChange('zipCode', event.target.value)}
           placeholder="Add a postal code"
-          value={get(values, 'billingAddress.zipCode', '') as string}
+          value={get(values, 'zipCode', '')}
         />
       </div>
       {!disabled &&
         <div className={styles.submit_button_container}>
-          <SubmitButton id="user-submit" loading={loading} type="square" value="Submit" />
+          <SubmitButton id="billing-submit" loading={loading} type="square" value="Submit" />
         </div>
       }
     </form>
@@ -168,15 +288,14 @@ const BillingInfoForm = ({ billing, selected }: BillingInfoFormProps): JSX.Eleme
 }
 
 BillingInfoForm.propTypes = {
-  selected: PropTypes.bool,
-  user: PropTypes.shape({
-    billingAddress: PropTypes.shape({
-      city: PropTypes.string,
-      postalCode: PropTypes.string,
-      state: PropTypes.string,
-      streetAddress: PropTypes.string
-    })
-  })
+  billing: PropTypes.shape({
+    city: PropTypes.string,
+    countryCode: PropTypes.string,
+    state: PropTypes.string,
+    streetAddress: PropTypes.string,
+    zipCode: PropTypes.string
+  }),
+  selected: PropTypes.bool
 }
 
 export default BillingInfoForm

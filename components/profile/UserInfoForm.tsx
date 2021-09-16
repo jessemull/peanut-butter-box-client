@@ -1,15 +1,14 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import set from 'lodash.set'
-import { isValidPhoneNumber } from 'libphonenumber-js'
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { BasicTextInput } from '../inputs'
+import { api, validators } from '../../util'
 import config from '../../config'
 import EditIcon from '../icons/Edit'
 import styles from './UserInfoForm.module.css'
 import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
-import { doGet, doPut } from '../../util/api'
 import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
 
@@ -106,32 +105,34 @@ const countries = [{
 
 const validate = (values: FormValues): Errors => {
   const errors: Errors = {}
-  if (!values.city) {
-    errors.city = 'Please enter a city'
-  }
   if (!values.firstName) {
     errors.firstName = 'Please enter a first name'
   }
   if (!values.lastName) {
     errors.lastName = 'Please enter a last name'
   }
-  if (!values.primaryPhone) {
-    errors.primaryPhone = 'Please enter a primary phone number'
-  }
-  if (values.primaryPhone && !isValidPhoneNumber(values.primaryPhone, 'US')) {
+  if (values.primaryPhone && !validators.isValidNumber(values.primaryPhone)) {
     errors.primaryPhone = 'Please enter a valid phone number'
   }
-  if (!values.countryCode) {
-    errors.state = 'Please enter a country'
-  }
-  if (!values.state) {
-    errors.state = 'Please enter a state'
-  }
-  if (!values.streetAddress) {
-    errors.streetAddress = 'Please enter a street address'
-  }
-  if (!values.zipCode) {
-    errors.zipCode = 'Please enter a zip code'
+  if (values.city || values.countryCode || values.state || values.streetAddress || values.zipCode) {
+    if (!values.city) {
+      errors.city = 'Please enter a city'
+    }
+    if (!values.countryCode) {
+      errors.state = 'Please enter a country'
+    }
+    if (!values.state) {
+      errors.state = 'Please enter a state'
+    }
+    if (!values.streetAddress) {
+      errors.streetAddress = 'Please enter a street address'
+    }
+    if (!values.zipCode) {
+      errors.zipCode = 'Please enter a zip code'
+    }
+    if (values.zipCode && !validators.isValidZipCode(values.zipCode)) {
+      errors.zipCode = 'Please enter a zip code'
+    }
   }
   return errors
 }
@@ -165,9 +166,10 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
   const onAddressChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const found = addressSuggestions?.find(({ label }) => event.target.value === label)
     if (found) {
-      const address = await doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
+      const address = await api.doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
       if (address) {
-        setValues({ ...values, city: address.city, state: address.state, streetAddress: `${address.number} ${address.street}`, zipCode: address.zipCode })
+        const streetAddress = address.number && address.street ? `${address.number} ${address.street}` : `${address.number || ''}${address.street || ''}`
+        setValues({ ...values, city: address.city, countryCode: address.countryCode, state: address.state, streetAddress, zipCode: address.zipCode })
       }
     } else {
       onChange('streetAddress', event.target.value)
@@ -199,7 +201,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
       try {
         setLoading(true)
         setErrors({ ...defaultErrors })
-        await doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
+        await api.doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
         refetchUser()
       } catch (error) {
@@ -247,6 +249,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           autoComplete="given-name"
           disabled={disabled}
           errors={errors.firstName}
+          id="user-first-name"
           label="First Name"
           onChange={event => onChange('firstName', event.target.value)}
           placeholder="Add a first name"
@@ -256,6 +259,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           autoComplete="family-name"
           disabled={disabled}
           errors={errors.lastName}
+          id="user-last-name"
           label="Last Name"
           onChange={event => onChange('lastName', event.target.value)}
           placeholder="Add a last name"
@@ -265,6 +269,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           autoComplete="tel"
           disabled={disabled}
           errors={errors.primaryPhone}
+          id="user-phone"
           label="Phone"
           onChange={event => onChange('primaryPhone', event.target.value)}
           placeholder="Add a phone number"
@@ -275,6 +280,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           autoComplete="street-address"
           disabled={disabled}
           errors={errors.streetAddress}
+          id="user-street-address"
           label="Street Address"
           onChange={onAddressChange}
           placeholder="Add a street address"
@@ -287,6 +293,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
               autoComplete="address-level2"
               disabled={disabled}
               errors={errors.city}
+              id="user-city"
               label="City"
               onChange={onCityChange}
               placeholder="Add a city"
@@ -299,6 +306,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
               autoComplete="address-level1"
               disabled={disabled}
               errors={errors.state}
+              id="user-state"
               label="State/Province"
               onChange={onStateChange}
               placeholder="Add a state/province"
@@ -320,6 +328,7 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           autoComplete="postal-code"
           disabled={disabled}
           errors={errors.zipCode}
+          id="user-zip-code"
           label="Postal/Zip Code"
           onChange={event => onChange('zipCode', event.target.value)}
           placeholder="Add a postal code"
@@ -340,6 +349,7 @@ UserInfoForm.propTypes = {
   selected: PropTypes.bool,
   user: PropTypes.shape({
     city: PropTypes.string,
+    countryCode: PropTypes.string,
     email: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,

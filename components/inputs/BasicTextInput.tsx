@@ -6,10 +6,12 @@ interface Suggestion {
   label: string;
   value: any; // eslint-disable-line
 }
+
 interface BasicTextInputProps {
   autoComplete: string;
   disabled?: boolean;
   errors?: string | Array<string>;
+  id: string;
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string;
@@ -18,16 +20,16 @@ interface BasicTextInputProps {
   value?: string;
 }
 
-const BasicTextInput = ({ autoComplete, disabled, errors, label, onChange, placeholder, suggestions, type, value }: BasicTextInputProps): JSX.Element => {
+const BasicTextInput = ({ autoComplete, disabled, errors, id, label, onChange, placeholder, suggestions, type, value }: BasicTextInputProps): JSX.Element => {
   const errorsArray = Array.isArray(errors) ? errors : errors && [errors]
   return (
     <div className={styles.info_block_padding}>
-      <label className={styles.info_block_label} htmlFor={`${label}-input`}>{label}</label>
-      <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} list={`${label}-list`} onChange={onChange} placeholder={placeholder} type={type} value={value} />
+      <label className={styles.info_block_label} htmlFor={`${id}-input`}>{label}</label>
+      <input autoComplete={autoComplete} className={styles.info_block_value} disabled={disabled} id={`${id}-input`} list={`${id}-list`} onChange={onChange} placeholder={placeholder} type={type} value={value} />
       <span className={styles.focus_border}></span>
       {
         suggestions.length > 0 &&
-          <datalist id={`${label}-list`}>
+          <datalist id={`${id}-list`}>
             {suggestions.map((suggestion) => <option key={suggestion.label}>{suggestion.label}</option>)}
           </datalist>
       }

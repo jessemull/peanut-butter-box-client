@@ -91,6 +91,7 @@ const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.El
         <h4 className={styles.info_block_header}>Change Password</h4>
         <BasicTextInput
           autoComplete="current-password"
+          id="current-password"
           label="Current Password"
           onChange={event => onChange('oldPassword', event.target.value)}
           placeholder="Enter current password"
@@ -100,6 +101,7 @@ const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.El
         <BasicTextInput
           autoComplete="new-password"
           errors={errors.newPassword}
+          id="new-password"
           label="New Password"
           onChange={event => onChange('newPassword', event.target.value)}
           placeholder="Enter new password"
@@ -109,6 +111,7 @@ const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.El
         <BasicTextInput
           autoComplete="new-password"
           errors={errors.confirmNewPassword}
+          id="new-password-confirm"
           label="Re-Enter New Password"
           onChange={event => onChange('confirmNewPassword', event.target.value)}
           placeholder="Re-enter new password"

@@ -30,6 +30,7 @@ const LoginForm = ({ user }: LoginFormProps): JSX.Element => {
         <BasicTextInput
           autoComplete="username"
           disabled={true}
+          id="user-login"
           label="Login"
           onChange={event => onChange('login', event.target.value)}
           placeholder="Add a login"
