@@ -11,7 +11,6 @@ import { SubmitButton } from '../buttons'
 import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
 import Checkbox from '../inputs/Checkbox'
-import UserInfoForm from './UserInfoForm'
 import { ToastContext } from '../../providers/toast'
 
 const { placesUrl } = config
@@ -204,7 +203,7 @@ const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX
         showToast('Billing updated!')
       } catch (error) {
         setLoading(false)
-        showToast('Oops! Billing update failed!')
+        showToast('Oops! Billing update failed!', true)
       }
     } else {
       setErrors({ ...validated })
