@@ -9,6 +9,7 @@ import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
 import { passwordUtil } from '../../util'
 import { doPost } from '../../util/api'
+import { ToastContext } from '../../providers/toast'
 
 const { usersUrl } = config
 
@@ -52,6 +53,7 @@ const validate = (values: FormValues): Errors => {
 
 const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
+  const { showToast } = useContext(ToastContext)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [loading, setLoading] = useState(false)
   const [values, setValues] = useState<FormValues>({ ...defaultValues })
@@ -72,8 +74,10 @@ const ChangePasswordForm = ({ selected, user }: ChangePasswordFormProps): JSX.El
         setErrors({ ...defaultErrors })
         await doPost(`${usersUrl}/change`, JSON.stringify({ id: user.id, newPassword, oldPassword }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
+        showToast('Password updated!')
       } catch (error) {
         setLoading(false)
+        showToast('Oops! Password update failed!', true)
       }
     } else {
       setErrors({ ...validated })

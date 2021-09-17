@@ -1,7 +1,7 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import set from 'lodash.set'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { BasicTextInput } from '../inputs'
 import { api, validators } from '../../util'
 import config from '../../config'
@@ -12,6 +12,7 @@ import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
 import Checkbox from '../inputs/Checkbox'
 import UserInfoForm from './UserInfoForm'
+import { ToastContext } from '../../providers/toast'
 
 const { placesUrl } = config
 
@@ -128,6 +129,7 @@ const validate = (values: FormValues): Errors => {
 }
 
 const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX.Element => {
+  const { showToast } = useContext(ToastContext)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -199,8 +201,10 @@ const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX
         setErrors({ ...defaultErrors })
         console.log(values)
         setLoading(false)
+        showToast('Billing updated!')
       } catch (error) {
         setLoading(false)
+        showToast('Oops! Billing update failed!')
       }
     } else {
       setErrors({ ...validated })

@@ -11,6 +11,7 @@ import { SubmitButton } from '../buttons'
 import { OAuthContext } from '../../providers/oauth'
 import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
+import { ToastContext } from '../../providers/toast'
 
 const { placesUrl, usersUrl } = config
 
@@ -139,6 +140,7 @@ const validate = (values: FormValues): Errors => {
 
 const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
+  const { showToast } = useContext(ToastContext)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -204,8 +206,10 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
         await api.doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
         setLoading(false)
         refetchUser()
+        showToast('Profile updated!')
       } catch (error) {
         setLoading(false)
+        showToast('Oops! Profile update failed!', true)
       }
     } else {
       setErrors({ ...validated })

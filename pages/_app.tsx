@@ -7,6 +7,7 @@ import TopNav from '../components/top-nav'
 import styles from '../styles/app.module.css'
 import '../styles/globals.css'
 import CartProvider from '../providers/cart'
+import ToastProvider from '../providers/toast'
 
 function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   const nav = useRef<HTMLHeadingElement>(null)
@@ -26,12 +27,14 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <OAuthProvider>
       <CartProvider>
-        <TopNav toggleOpen={toggleOpen} />
-        <div className={styles.app_container}>
-          <Component {...pageProps} />
-        </div>
-        <BottomNav />
-        <Menu nav={nav} toggleOpen={toggleOpen} />
+        <ToastProvider>
+          <TopNav toggleOpen={toggleOpen} />
+          <div className={styles.app_container}>
+            <Component {...pageProps} />
+          </div>
+          <BottomNav />
+          <Menu nav={nav} toggleOpen={toggleOpen} />
+        </ToastProvider>
       </CartProvider>
     </OAuthProvider>
   )

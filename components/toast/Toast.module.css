@@ -1,0 +1,33 @@
+@media screen and (max-width: 1250px) {
+  .toast {
+    border-radius: 0px;
+    margin-left: -50%;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1250px) {
+  .toast {
+    border-radius: 5px 5px 0px 0px;
+    margin-left: -10%;
+    width: 20%;
+  }
+}
+
+.toast {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  height: 55px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: -55px;
+  justify-content: center;
+}
+
+.show {
+  bottom: 0px;
+  transition: bottom 0.75s;
+}
