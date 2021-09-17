@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 import Accordion from './Accordion'
-import Toast from '../toast/Toast'
+import Toast from '../toast'
 import signin from '../../public/images/signin.webp'
 import styles from './Profile.module.css'
 import { OAuthContext } from '../../providers/oauth'
