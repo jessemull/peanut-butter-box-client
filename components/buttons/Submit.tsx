@@ -11,7 +11,7 @@ interface SubmitButtonProps {
 
 const SubmitButton = ({ id, loading, type, value }: SubmitButtonProps): JSX.Element => (
   <div className={styles.submit_button_container}>
-    <input className={type === 'round' ? styles.submit_button : styles.submit_button_square} id={id} type="submit" value={loading ? '' : value} />
+    <input className={type === 'round' ? styles.submit_button : styles.submit_button_square} disabled={loading} id={id} type="submit" value={loading ? '' : value} />
     {loading && <div className={styles.submit_button_progress}><Progress /></div>}
   </div>
 )

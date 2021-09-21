@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function useFetch<Data, Error> (url: string, token?: string, lazy?: boolean): { data: Data | undefined; error: Error | undefined; fetchData: () => void, loading: boolean, refetchData: () => void } {
+function useFetch<Data, Error> (url: string, token?: string, lazy?: boolean): { data: Data | undefined; error: Error | undefined; fetchData: () => void, loading: boolean, refetchData: () => Promise<void> } {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Data>()
   const [error, setError] = useState<Error>()

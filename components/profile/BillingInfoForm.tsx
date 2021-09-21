@@ -12,6 +12,7 @@ import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
 import Checkbox from '../inputs/Checkbox'
 import { ToastContext } from '../../providers/toast'
+import ProgressDots from '../progress/ProgressDots'
 
 const { placesUrl } = config
 
@@ -129,6 +130,7 @@ const validate = (values: FormValues): Errors => {
 
 const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX.Element => {
   const { showToast } = useContext(ToastContext)
+  const [addressLoading, setAddressLoading] = useState(false)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -155,11 +157,13 @@ const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX
   const onAddressChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const found = addressSuggestions?.find(({ label }) => event.target.value === label)
     if (found) {
+      setAddressLoading(true)
       const address = await api.doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
       if (address) {
         const streetAddress = address.number && address.street ? `${address.number} ${address.street}` : `${address.number || ''}${address.street || ''}`
         setValues({ ...values, city: address.city, countryCode: address.countryCode, state: address.state, streetAddress, zipCode: address.zipCode })
       }
+      setAddressLoading(false)
     } else {
       onChange('streetAddress', event.target.value)
     }
@@ -244,7 +248,12 @@ const BillingInfoForm = ({ billing, selected, user }: BillingInfoFormProps): JSX
         </div>
         <h4 className={styles.info_block_header}>Billing Address</h4>
         <Checkbox disabled={disabled} id="use-mailing-address" checked={Boolean(values.useMailingAddress)} label="Use Mailing Address" onChange={onUseMailingAddressChange} />
-        {!values.useMailingAddress &&
+        {addressLoading &&
+          <div className={styles.address_loading}>
+            <ProgressDots />
+          </div>
+        }
+        {!values.useMailingAddress && !addressLoading &&
           <>
             <BasicTextInput
               autoComplete="street-address"

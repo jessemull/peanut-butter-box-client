@@ -12,6 +12,7 @@ import { OAuthContext } from '../../providers/oauth'
 import { useFetch } from '../../hooks'
 import BasicSelect from '../inputs/BasicSelect'
 import { ToastContext } from '../../providers/toast'
+import ProgressDots from '../progress/ProgressDots'
 
 const { placesUrl, usersUrl } = config
 
@@ -58,7 +59,7 @@ interface User {
 }
 
 interface UserInfoFormProps {
-  refetchUser: () => void;
+  refetchUser: () => Promise<void>;
   selected: boolean;
   user: User;
 }
@@ -141,6 +142,7 @@ const validate = (values: FormValues): Errors => {
 const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.Element => {
   const { getAccessToken } = useContext(OAuthContext)
   const { showToast } = useContext(ToastContext)
+  const [addressLoading, setAddressLoading] = useState(false)
   const [errors, setErrors] = useState<Errors>({ ...defaultErrors })
   const [disabled, setDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -168,11 +170,13 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
   const onAddressChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const found = addressSuggestions?.find(({ label }) => event.target.value === label)
     if (found) {
+      setAddressLoading(true)
       const address = await api.doGet<Details>(`${placesUrl}/details?placeId=${found.value}`)
       if (address) {
         const streetAddress = address.number && address.street ? `${address.number} ${address.street}` : `${address.number || ''}${address.street || ''}`
         setValues({ ...values, city: address.city, countryCode: address.countryCode, state: address.state, streetAddress, zipCode: address.zipCode })
       }
+      setAddressLoading(false)
     } else {
       onChange('streetAddress', event.target.value)
     }
@@ -204,12 +208,12 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
         setLoading(true)
         setErrors({ ...defaultErrors })
         await api.doPut(`${usersUrl}`, JSON.stringify({ ...values }), { Authorization: `Bearer ${token as string}` })
-        setLoading(false)
-        refetchUser()
+        await refetchUser()
         showToast('Profile updated!')
-      } catch (error) {
         setLoading(false)
+      } catch (error) {
         showToast('Oops! Profile update failed!', true)
+        setLoading(false)
       }
     } else {
       setErrors({ ...validated })
@@ -280,64 +284,71 @@ const UserInfoForm = ({ refetchUser, selected, user }: UserInfoFormProps): JSX.E
           value={get(values, 'primaryPhone', '')}
         />
         <h4 className={styles.info_block_header}>User Address</h4>
-        <BasicTextInput
-          autoComplete="street-address"
-          disabled={disabled}
-          errors={errors.streetAddress}
-          id="user-street-address"
-          label="Street Address"
-          onChange={onAddressChange}
-          placeholder="Add a street address"
-          suggestions={addressSuggestions}
-          value={get(values, 'streetAddress', '')}
-        />
-        <div className={styles.address_block}>
-          <div className={styles.city}>
+        {addressLoading
+          ? <div className={styles.address_loading}>
+              <ProgressDots />
+            </div>
+          : <>
             <BasicTextInput
-              autoComplete="address-level2"
+              autoComplete="street-address"
               disabled={disabled}
-              errors={errors.city}
-              id="user-city"
-              label="City"
-              onChange={onCityChange}
-              placeholder="Add a city"
-              suggestions={citySuggestions}
-              value={get(values, 'city', '')}
+              errors={errors.streetAddress}
+              id="user-street-address"
+              label="Street Address"
+              onChange={onAddressChange}
+              placeholder="Add a street address"
+              suggestions={addressSuggestions}
+              value={get(values, 'streetAddress', '')}
             />
-          </div>
-          <div className={styles.state}>
+            <div className={styles.address_block}>
+              <div className={styles.city}>
+                <BasicTextInput
+                  autoComplete="address-level2"
+                  disabled={disabled}
+                  errors={errors.city}
+                  id="user-city"
+                  label="City"
+                  onChange={onCityChange}
+                  placeholder="Add a city"
+                  suggestions={citySuggestions}
+                  value={get(values, 'city', '')}
+                />
+              </div>
+              <div className={styles.state}>
+                <BasicTextInput
+                  autoComplete="address-level1"
+                  disabled={disabled}
+                  errors={errors.state}
+                  id="user-state"
+                  label="State/Province"
+                  onChange={onStateChange}
+                  placeholder="Add a state/province"
+                  suggestions={stateSuggestions}
+                  value={get(values, 'state', '')}
+                />
+              </div>
+            </div>
+            <BasicSelect
+              disabled={disabled}
+              errors={errors.countryCode}
+              label="Country"
+              onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
+              options={countries}
+              placeholder="Select a country"
+              value={countries.find(({ value }) => code === value)}
+            />
             <BasicTextInput
-              autoComplete="address-level1"
+              autoComplete="postal-code"
               disabled={disabled}
-              errors={errors.state}
-              id="user-state"
-              label="State/Province"
-              onChange={onStateChange}
-              placeholder="Add a state/province"
-              suggestions={stateSuggestions}
-              value={get(values, 'state', '')}
+              errors={errors.zipCode}
+              id="user-zip-code"
+              label="Postal/Zip Code"
+              onChange={event => onChange('zipCode', event.target.value)}
+              placeholder="Add a postal code"
+              value={get(values, 'zipCode', '')}
             />
-          </div>
-        </div>
-        <BasicSelect
-          disabled={disabled}
-          errors={errors.countryCode}
-          label="Country"
-          onChange={(countryCode: { value: string }) => onChange('countryCode', countryCode.value)}
-          options={countries}
-          placeholder="Select a country"
-          value={countries.find(({ value }) => code === value)}
-        />
-        <BasicTextInput
-          autoComplete="postal-code"
-          disabled={disabled}
-          errors={errors.zipCode}
-          id="user-zip-code"
-          label="Postal/Zip Code"
-          onChange={event => onChange('zipCode', event.target.value)}
-          placeholder="Add a postal code"
-          value={get(values, 'zipCode', '')}
-        />
+          </>
+        }
       </div>
       {!disabled &&
         <div className={styles.submit_button_container}>

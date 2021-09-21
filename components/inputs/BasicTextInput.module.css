@@ -17,11 +17,13 @@
 }
 
 .info_block_padding input:disabled {
+  background-color: white;
   border-bottom: none;
   cursor: not-allowed;
 }
 
 .info_block_padding input {
+  background-color: white;
   border-bottom: 1px solid #CCCCCC;
 }
 
