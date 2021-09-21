@@ -5,8 +5,14 @@ import PropTypes from 'prop-types'
 import styles from './Menu.module.css'
 
 export const links = [{
-  href: '#subscriptions',
+  href: '/#subscriptions',
   label: 'Subscriptions'
+}, {
+  href: '/profile',
+  label: 'Profile'
+}, {
+  href: '/cart',
+  label: 'Cart'
 }, {
   href: '/contact',
   label: 'Contact'
