@@ -31,7 +31,8 @@
 .app_bar_icons {
   align-items: center;
   display: flex;
-  justify-content: center;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .app_bar_links {

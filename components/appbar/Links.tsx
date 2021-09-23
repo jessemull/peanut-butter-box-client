@@ -19,7 +19,6 @@ export const links = [{
 
 const Links = (): JSX.Element => {
   const { isSignedIn, signOut } = useContext(OAuthContext)
-
   return (
     <nav>
       <ul className={styles.app_bar_links}>

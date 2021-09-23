@@ -1,12 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
-import { useFetch } from '../../hooks'
-import config from '../../config'
+import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import SquareButton from '../buttons/Square'
 import styles from './Subscriptions.module.css'
 import { CartContext } from '../../providers/cart'
-import ProgressDots from '../progress/ProgressDots'
-
-const { productsUrl } = config
 
 interface Subscription {
   description: string;
@@ -24,55 +20,66 @@ interface Subscription {
   title: string;
 }
 
-const Subscriptions = (): JSX.Element => {
-  const [subscriptions, setSubscriptions] = useState<Array<Subscription>>([])
+interface SubscriptionsProps {
+  subscriptions: Array<Subscription>;
+}
+
+const Subscriptions = ({ subscriptions }: SubscriptionsProps): JSX.Element => {
   const { addProduct } = useContext(CartContext)
-  const { data = [], loading } = useFetch(productsUrl)
-
-  useEffect(() => {
-    if (data.length > 0) {
-      setSubscriptions(data.reverse())
-    }
-  }, [loading]) // eslint-disable-line
-
   return (
     <div className={styles.subscriptions} id="subscriptions">
       {
-        loading
-          ? <div className={styles.progress_container}>
-              <ProgressDots />
-            </div>
-          : subscriptions.map(subscription => (
-            <div className={styles.product} key={subscription.productId}>
-              <h4 className={styles.title}>{subscription.title}</h4>
-              <p className={styles.description}>{subscription.description}</p>
-              <div className={styles.all_prices}>
-                <div className={styles.prices_container}>
-                  <div className={styles.prices}>
-                    <h5 className={styles.price_header}>One Year</h5>
-                    <p className={styles.price_subheader}>${subscription.price.full.total} / YEAR</p>
-                    <p className={styles.price_subheader}>${subscription.price.full.monthly} / MONTH</p>
-                  </div>
-                  <div className={styles.add_to_cart}>
-                    <SquareButton id={`add-to-cart-one-year-${subscription.productId}`} label="Add to Cart" onClick={() => addProduct({ ...subscription, duration: 'full', quantity: 1 })} />
-                  </div>
+        subscriptions.map(subscription => (
+          <div className={styles.product} id={subscription.productId} key={subscription.productId}>
+            <h4 className={styles.title}>{subscription.title}</h4>
+            <p className={styles.description}>{subscription.description}</p>
+            <div className={styles.all_prices}>
+              <div className={styles.prices_container}>
+                <div className={styles.prices}>
+                  <h5 className={styles.price_header}>One Year</h5>
+                  <p className={styles.price_subheader}>${subscription.price.full.total} / YEAR</p>
+                  <p className={styles.price_subheader}>${subscription.price.full.monthly} / MONTH</p>
                 </div>
-                <div className={styles.prices_container}>
-                  <div className={styles.prices}>
-                    <h5 className={styles.price_header}>Six Months</h5>
-                    <p className={styles.price_subheader}>${subscription.price.half.total} / YEAR</p>
-                    <p className={styles.price_subheader}>${subscription.price.half.monthly} / MONTH</p>
-                  </div>
-                  <div className={styles.add_to_cart}>
-                    <SquareButton id={`add-to-cart-six-months-${subscription.productId}`} label="Add to Cart" onClick={() => addProduct({ ...subscription, duration: 'half', quantity: 1 })} />
-                  </div>
+                <div className={styles.add_to_cart}>
+                  <SquareButton id={`add-to-cart-one-year-${subscription.productId}`} label="Add to Cart" onClick={() => addProduct({ ...subscription, duration: 'full', quantity: 1 })} />
+                </div>
+              </div>
+              <div className={styles.prices_container}>
+                <div className={styles.prices}>
+                  <h5 className={styles.price_header}>Six Months</h5>
+                  <p className={styles.price_subheader}>${subscription.price.half.total} / YEAR</p>
+                  <p className={styles.price_subheader}>${subscription.price.half.monthly} / MONTH</p>
+                </div>
+                <div className={styles.add_to_cart}>
+                  <SquareButton id={`add-to-cart-six-months-${subscription.productId}`} label="Add to Cart" onClick={() => addProduct({ ...subscription, duration: 'half', quantity: 1 })} />
                 </div>
               </div>
             </div>
-          ))
+          </div>
+        ))
       }
     </div>
   )
+}
+
+Subscriptions.propTypes = {
+  description: PropTypes.string,
+  price: PropTypes.shape({
+    full: PropTypes.shape({
+      monthly: PropTypes.string,
+      total: PropTypes.string
+    }),
+    half: PropTypes.shape({
+      monthly: PropTypes.string,
+      total: PropTypes.string
+    })
+  }),
+  productId: PropTypes.string,
+  title: PropTypes.string
+}
+
+Subscriptions.defaultProps = {
+  subscriptions: []
 }
 
 export default Subscriptions
