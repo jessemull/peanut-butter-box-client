@@ -82,15 +82,15 @@ const Icons = ({ subscriptions }: IconsProps): JSX.Element => {
 
   return (
     <>
-      <input className={styles.input} list="search-input-list" onChange={onChange} ref={input} value={value} />
-      <datalist id="search-input-list">
-        {suggestions.map((suggestion) => <option key={suggestion.title}>{suggestion.title}</option>)}
-      </datalist>
-      {!isSearchExpanded &&
-        <button aria-label="search" className={styles.icon_container_search} onClick={expandSearchInput}>
+      <div className={styles.search_input} ref={input}>
+        <button aria-label="search" className={styles.search_button} onClick={expandSearchInput}>
           <SearchIcon />
         </button>
-      }
+        <input className={styles.input} list="search-input-list" onChange={onChange} value={value} />
+        <datalist id="search-input-list">
+          {suggestions.map((suggestion) => <option key={suggestion.title}>{suggestion.title}</option>)}
+        </datalist>
+      </div>
       <div className={styles.icon_container}>
         <Link href={isSignedIn ? '/profile' : '/signin'}>
           <a><ProfileIcon /></a>
