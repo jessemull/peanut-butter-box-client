@@ -34,7 +34,6 @@ const Icons = ({ subscriptions }: IconsProps): JSX.Element => {
   const router = useRouter()
   const { products } = useContext(CartContext)
   const { isSignedIn } = useContext(OAuthContext)
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
   const [suggestions, setSuggestions] = useState<Array<Subscription>>([])
   const [value, setValue] = useState('')
 
@@ -48,7 +47,6 @@ const Icons = ({ subscriptions }: IconsProps): JSX.Element => {
   const reset = () => {
     if (input && input.current) {
       input.current.classList.remove(styles.search_input_expanded)
-      setIsSearchExpanded(false)
       setSuggestions([])
       setValue('')
     }
@@ -61,7 +59,6 @@ const Icons = ({ subscriptions }: IconsProps): JSX.Element => {
   }
 
   const expandSearchInput = () => {
-    setIsSearchExpanded(true)
     if (input && input.current) {
       input.current.classList.toggle(styles.search_input_expanded)
       input.current.focus()
