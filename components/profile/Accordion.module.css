@@ -1,11 +1,11 @@
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1350px) {
   .accordion {
     height: 100%;
     width: 100%;
   }
 }
 
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1350px) {
   .accordion {
     height: 80%;
     width: 40%;

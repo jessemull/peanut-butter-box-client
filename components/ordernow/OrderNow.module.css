@@ -29,7 +29,7 @@
   }
 }
 
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1350px) {
   .background_image {
     display: flex;
   }

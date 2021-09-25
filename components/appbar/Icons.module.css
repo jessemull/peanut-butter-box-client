@@ -1,6 +1,12 @@
-@media screen and (max-width: 1250px) {
-  .icon_container, .icon_container_search {
+@media screen and (max-width: 1350px) {
+  .icon_container, .icon_container_search, .search_input {
     display: none;
+  }
+}
+
+@media screen and (min-width: 1350px) {
+  .search_input {
+    display: flex;
   }
 }
 
@@ -15,7 +21,6 @@
 .search_input {
   align-items: center;
   border-radius: 16px;
-  display: flex;
   font-size: 0.9rem;
   margin-right: 12px;
   max-width: 400px;
@@ -52,10 +57,10 @@
   border-radius: 16px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
   height: 32px;
-  margin-left: 1rem;
+  margin-left: 32px;
   max-width: 400px;
   padding: 0px 12px 0px 8px;
-  width: 100%;
+  width: 90%;
 }
 
 .search_input_expanded input {
