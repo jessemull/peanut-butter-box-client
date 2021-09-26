@@ -1,7 +1,7 @@
 import fuzzysort from 'fuzzysort'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import Icons from './Icons'
 import Links from './Links'
 import MenuIcon from '../icons/Menu'
@@ -31,36 +31,14 @@ interface AppBarProps {
 
 const Appbar = ({ subscriptions, toggleOpen }: AppBarProps): JSX.Element => {
   const input = useRef<HTMLInputElement>(null)
+  const inputMobile = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const [suggestions, setSuggestions] = useState<Array<Subscription>>([])
   const [value, setValue] = useState('')
 
-  useEffect(() => {
-    document.addEventListener('mousedown', collapseSearchInput)
-    return () => {
-      document.removeEventListener('mousedown', collapseSearchInput)
-    }
-  })
-
   const reset = () => {
-    if (input && input.current) {
-      input.current.classList.remove(styles.search_input_expanded)
-      setSuggestions([])
-      setValue('')
-    }
-  }
-
-  const collapseSearchInput = (event: MouseEvent) => {
-    if (input && input.current && !input.current.contains(event.target as Node)) {
-      reset()
-    }
-  }
-
-  const expandSearchInput = () => {
-    if (input && input.current) {
-      input.current.classList.toggle(styles.search_input_expanded)
-      input.current.focus()
-    }
+    setSuggestions([])
+    setValue('')
   }
 
   const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +57,7 @@ const Appbar = ({ subscriptions, toggleOpen }: AppBarProps): JSX.Element => {
     <div>
       <div className={styles.header}>
         <MenuIcon toggleOpen={toggleOpen} />
-        <MobileSearch />
+        <MobileSearch input={inputMobile} onChange={onChange} reset={reset} suggestions={suggestions} value={value} />
       </div>
       <div className={styles.app_bar}>
         <div className={styles.app_bar_links}>
@@ -91,7 +69,7 @@ const Appbar = ({ subscriptions, toggleOpen }: AppBarProps): JSX.Element => {
           <Links />
         </div>
         <div className={styles.app_bar_icons}>
-          <Icons expandSearchInput={expandSearchInput} input={input} onChange={onChange} suggestions={suggestions} value={value} />
+          <Icons input={input} onChange={onChange} reset={reset} suggestions={suggestions} value={value} />
         </div>
       </div>
     </div>
