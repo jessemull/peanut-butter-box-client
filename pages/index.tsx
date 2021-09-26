@@ -7,6 +7,7 @@ const { productsUrl } = config
 
 interface Subscription {
   description: string;
+  examples: string;
   price: {
     full: {
       monthly: string;
