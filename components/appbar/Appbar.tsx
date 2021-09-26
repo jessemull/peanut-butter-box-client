@@ -10,6 +10,7 @@ import styles from './AppBar.module.css'
 
 interface Subscription {
   description: string;
+  examples: string;
   price: {
     full: {
       monthly: string;

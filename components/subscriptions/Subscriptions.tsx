@@ -6,6 +6,7 @@ import { CartContext } from '../../providers/cart'
 
 interface Subscription {
   description: string;
+  examples: string;
   price: {
     full: {
       monthly: string;
@@ -33,6 +34,7 @@ const Subscriptions = ({ subscriptions }: SubscriptionsProps): JSX.Element => {
           <div className={styles.product} id={subscription.productId} key={subscription.productId}>
             <h4 className={styles.title}>{subscription.title}</h4>
             <p className={styles.description}>{subscription.description}</p>
+            <p className={styles.examples}>{subscription.examples}</p>
             <div className={styles.all_prices}>
               <div className={styles.prices_container}>
                 <div className={styles.prices}>

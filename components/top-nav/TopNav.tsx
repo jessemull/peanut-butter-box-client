@@ -4,6 +4,7 @@ import styles from './TopNav.module.css'
 
 interface Subscription {
   description: string;
+  examples: string;
   price: {
     full: {
       monthly: string;
