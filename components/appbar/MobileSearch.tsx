@@ -62,7 +62,14 @@ MobileSearch.propTypes = {
 }
 
 MobileSearch.defaultProps = {
-  color: '#FFFFFF'
+  color: '#FFFFFF',
+  input: PropTypes.shape({}),
+  onChange: PropTypes.func,
+  reset: PropTypes.func,
+  suggestions: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string
+  })),
+  value: PropTypes.string
 }
 
 export default MobileSearch

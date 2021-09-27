@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 import { ChangeEvent, RefObject, useContext, useEffect, useState } from 'react'
 import CartIcon from '../icons/Cart'
 import ProfileIcon from '../icons/Profile'
@@ -72,6 +73,16 @@ const Icons = ({ input, onChange, reset, suggestions, value }: IconsProps): JSX.
       </div>
     </>
   )
+}
+
+Icons.propTypes = {
+  input: PropTypes.shape({}),
+  onChange: PropTypes.func,
+  reset: PropTypes.func,
+  suggestions: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string
+  })),
+  value: PropTypes.string
 }
 
 export default Icons

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import config from '../config'
 import OrderNow from '../components/ordernow'
 import Subscriptions from '../components/subscriptions'
@@ -49,4 +50,22 @@ export async function getStaticProps (): Promise<GetStaticProps> {
   }
 }
 
+Home.propTypes = {
+  subscriptions: PropTypes.arrayOf(PropTypes.shape({
+    description: PropTypes.string,
+    examples: PropTypes.string,
+    price: PropTypes.shape({
+      full: PropTypes.shape({
+        monthly: PropTypes.number,
+        total: PropTypes.number
+      }),
+      half: PropTypes.shape({
+        monthly: PropTypes.number,
+        total: PropTypes.number
+      })
+    }),
+    productId: PropTypes.string,
+    title: PropTypes.string
+  }))
+}
 export default Home

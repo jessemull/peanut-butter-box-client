@@ -1,5 +1,6 @@
 import fuzzysort from 'fuzzysort'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useRef, useState } from 'react'
 import Icons from './Icons'
@@ -75,6 +76,26 @@ const Appbar = ({ subscriptions, toggleOpen }: AppBarProps): JSX.Element => {
       </div>
     </div>
   )
+}
+
+Appbar.propTypes = {
+  subscriptions: PropTypes.arrayOf(PropTypes.shape({
+    description: PropTypes.string,
+    examples: PropTypes.string,
+    price: PropTypes.shape({
+      full: PropTypes.shape({
+        monthly: PropTypes.number,
+        total: PropTypes.number
+      }),
+      half: PropTypes.shape({
+        monthly: PropTypes.number,
+        total: PropTypes.number
+      })
+    }),
+    productId: PropTypes.string,
+    title: PropTypes.string
+  })),
+  toggleOpen: PropTypes.func
 }
 
 export default Appbar

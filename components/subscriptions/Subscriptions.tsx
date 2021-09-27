@@ -68,12 +68,12 @@ Subscriptions.propTypes = {
   description: PropTypes.string,
   price: PropTypes.shape({
     full: PropTypes.shape({
-      monthly: PropTypes.string,
-      total: PropTypes.string
+      monthly: PropTypes.number,
+      total: PropTypes.number
     }),
     half: PropTypes.shape({
-      monthly: PropTypes.string,
-      total: PropTypes.string
+      monthly: PropTypes.number,
+      total: PropTypes.number
     })
   }),
   productId: PropTypes.string,
