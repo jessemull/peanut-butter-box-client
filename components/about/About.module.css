@@ -1,0 +1,64 @@
+@media screen and (max-width: 600px) {
+  .content {
+    margin-top: 20px;
+  }
+  .description {
+    width: 90%;
+  }
+  .title {
+    font-size: 2.25rem;
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .content {
+    margin-top: 80px;
+  }
+  .description {
+    width: 65%;
+  }
+  .title {
+    font-size: 2.75rem;
+  }
+}
+
+@media screen and (min-width: 1350px) {
+  .description {
+    width: 35%;
+  }
+  .title {
+    font-size: 2.75rem;
+  }
+}
+
+.container {
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.description {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.subscribe_now {
+  margin: 20px 0px 40px 0px;
+}
+
+.title {
+  font-family: 'AntipastoPro', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding-bottom: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}

@@ -1,5 +1,5 @@
-import ComingSoon from '../components/comingsoon'
+import About from '../components/about'
 
-const About = (): JSX.Element => <ComingSoon />
+const AboutPage = (): JSX.Element => <About />
 
-export default About
+export default AboutPage
