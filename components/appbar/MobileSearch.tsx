@@ -22,7 +22,7 @@ const MobileSearch = ({ color, input, onChange, reset, suggestions, value }: Mob
   const collapseSearchInputMobile = (event: MouseEvent) => {
     if (isExpanded && input && input.current && !input.current.contains(event.target as Node)) {
       if (input && input.current) {
-        input.current.classList.remove(styles.search_input_expanded_mobile)
+        input.current.classList.remove(styles.search_input_mobile_expanded)
       }
       reset()
       setIsExpanded(false)
@@ -38,8 +38,9 @@ const MobileSearch = ({ color, input, onChange, reset, suggestions, value }: Mob
 
   const expandSearchInput = () => {
     setIsExpanded(true)
+    console.log('expanding')
     if (input && input.current) {
-      input.current.classList.toggle(styles.search_input_expanded_mobile)
+      input.current.classList.toggle(styles.search_input_mobile_expanded)
       input.current.focus()
     }
   }
