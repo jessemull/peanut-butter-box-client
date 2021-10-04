@@ -1,0 +1,42 @@
+@media screen and (max-width: 1350px) {
+  .form_container {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1350px) {
+  .form_container {
+    height: 85%;
+    width: 40%;
+  }
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.form_container {
+  background: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+}
+
+.input_padding {
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: 'AntipastoPro', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin: 0px 0px 24px 0px;
+  padding: 0px;
+  text-transform: uppercase;
+}

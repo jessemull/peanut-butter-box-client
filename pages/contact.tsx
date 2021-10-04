@@ -1,5 +1,5 @@
-import ComingSoon from '../components/comingsoon'
+import Contact from '../components/contact'
 
-const Contact = (): JSX.Element => <ComingSoon />
+const ContactPage = (): JSX.Element => <Contact />
 
-export default Contact
+export default ContactPage
