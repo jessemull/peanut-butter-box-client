@@ -6,6 +6,7 @@ const config = {
   placesUrl: `${baseUrl}/places`,
   productsUrl: `${baseUrl}/products`,
   redirectUri: 'https://dev.peanutbutterbox.org',
+  supportUrl: `${baseUrl}/support`,
   usersUrl: `${baseUrl}/users`
 }
 

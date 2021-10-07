@@ -10,6 +10,7 @@ interface Config {
   placesUrl: string;
   productsUrl: string;
   redirectUri: string;
+  supportUrl: string;
   usersUrl: string;
 }
 

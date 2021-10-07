@@ -6,6 +6,7 @@ const config = {
   placesUrl: `${baseUrl}/places`,
   productsUrl: `${baseUrl}/products`,
   redirectUri: 'http://localhost:3000',
+  supportUrl: `${baseUrl}/support`,
   usersUrl: `${baseUrl}/users`
 }
 

@@ -1,11 +1,16 @@
 import EmailValidator from 'email-validator'
 import get from 'lodash.get'
 import set from 'lodash.set'
+import { useRouter } from 'next/router'
 import { FormEvent, useContext, useState } from 'react'
+import config from '../../config'
 import { ToastContext } from '../../providers/toast'
+import { api } from '../../util'
 import { SquareSubmit } from '../buttons'
 import { TextArea, TextInputBox } from '../inputs'
 import styles from './Form.module.css'
+
+const { supportUrl } = config
 
 interface Errors {
   email?: string;
@@ -57,6 +62,7 @@ const validate = (values: FormValues): Errors => {
 }
 
 const Form = (): JSX.Element => {
+  const router = useRouter()
   const { showToast } = useContext(ToastContext)
   const [errors, setErrors] = useState<Errors>({})
   const [loading, setLoading] = useState(false)
@@ -67,14 +73,15 @@ const Form = (): JSX.Element => {
     setValues({ ...values })
   }
 
-  const onSubmit = (event: FormEvent): void => {
+  const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault()
     const validated = validate(values)
     if (Object.keys(validated).length === 0) {
       try {
         setLoading(true)
         setErrors({ ...defaultErrors })
-        console.log(values)
+        await api.doPost(`${supportUrl}`, JSON.stringify({ date: new Date().toISOString(), ...values }))
+        await router.push('/')
         setLoading(false)
         showToast('Thank you for your input!')
       } catch (error) {

@@ -18,7 +18,7 @@
 
 .text_box_label {
   font-family: 'AntipastoPro', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 400;
   margin-bottom: 12px;
   text-transform: uppercase;
@@ -29,10 +29,9 @@
   border: none;
   box-shadow: 0px 0px 0px 1.25px #B7B7B7;
   border-radius: 16px;
-  font-size: 1rem;
-  height: 48px;
+  height: 36px;
   margin: 0;
-  padding: 0px 16px 0px 16px;
+  padding: 0px 12px 0px 12px;
   font-weight: 100;
 }
 
